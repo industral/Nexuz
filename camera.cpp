@@ -67,16 +67,15 @@ static void process_image(const void * p) {
     fflush(stdout);
 
     std::stringstream out;
-    out << "capt-" << i << ".ppm";
+    out << "capt-" << i << ".raw";
 
-    ofstream outfile (out.str().c_str(),ofstream::binary);
-    outfile.write ((const char*)p,buffers[0].length);
+    ofstream outfile(out.str().c_str(), ofstream::binary);
+    outfile.write((const char*) p, buffers[0].length);
     outfile.close();
 }
 
 static int read_frame(void) {
     struct v4l2_buffer buf;
-    unsigned int i;
 
     CLEAR (buf);
 
@@ -87,12 +86,7 @@ static int read_frame(void) {
         switch (errno) {
         case EAGAIN:
             return 0;
-
         case EIO:
-            /* Could ignore EIO, see spec. */
-
-            /* fall through */
-
         default:
             errno_exit("VIDIOC_DQBUF");
         }
@@ -181,23 +175,6 @@ static void uninit_device(void) {
     free(buffers);
 }
 
-static void init_read(unsigned int buffer_size) {
-    buffers = (buffer*) calloc(1, sizeof(*buffers));
-
-    if (!buffers) {
-        fprintf(stderr, "Out of memory\n");
-        exit(EXIT_FAILURE);
-    }
-
-    buffers[0].length = buffer_size;
-    buffers[0].start = malloc(buffer_size);
-
-    if (!buffers[0].start) {
-        fprintf(stderr, "Out of memory\n");
-        exit(EXIT_FAILURE);
-    }
-}
-
 static void init_mmap(void) {
     struct v4l2_requestbuffers req;
 
@@ -248,48 +225,6 @@ static void init_mmap(void) {
 
         if (MAP_FAILED == buffers[n_buffers].start)
             errno_exit("mmap");
-    }
-}
-
-static void init_userp(unsigned int buffer_size) {
-    struct v4l2_requestbuffers req;
-    unsigned int page_size;
-
-    page_size = getpagesize();
-    buffer_size = (buffer_size + page_size - 1) & ~(page_size - 1);
-
-    CLEAR (req);
-
-    req.count = 4;
-    req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    req.memory = V4L2_MEMORY_USERPTR;
-
-    if (-1 == xioctl(fd, VIDIOC_REQBUFS, &req)) {
-        if (EINVAL == errno) {
-            fprintf(stderr, "%s does not support "
-                "user pointer i/o\n", dev_name);
-            exit(EXIT_FAILURE);
-        } else {
-            errno_exit("VIDIOC_REQBUFS");
-        }
-    }
-
-    buffers = (buffer*) calloc(4, sizeof(*buffers));
-
-    if (!buffers) {
-        fprintf(stderr, "Out of memory\n");
-        exit(EXIT_FAILURE);
-    }
-
-    for (n_buffers = 0; n_buffers < 4; ++n_buffers) {
-        buffers[n_buffers].length = buffer_size;
-        buffers[n_buffers].start = memalign(/* boundary */page_size,
-                buffer_size);
-
-        if (!buffers[n_buffers].start) {
-            fprintf(stderr, "Out of memory\n");
-            exit(EXIT_FAILURE);
-        }
     }
 }
 
@@ -344,7 +279,7 @@ static void init_device(void) {
     fmt.fmt.pix.width = 640;
     fmt.fmt.pix.height = 480;
     fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
-    fmt.fmt.pix.field = V4L2_FIELD_INTERLACED;
+    fmt.fmt.pix.field = V4L2_FIELD_ANY;
 
     if (-1 == xioctl(fd, VIDIOC_S_FMT, &fmt))
         errno_exit("VIDIOC_S_FMT");
@@ -395,10 +330,6 @@ static void open_device(void) {
 
 int main(int argc, char ** argv) {
     dev_name = "/dev/video0";
-
-//    for (;;) {
-//        exit(EXIT_FAILURE);
-//    }
 
     open_device();
     init_device();

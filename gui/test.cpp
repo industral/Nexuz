@@ -24,10 +24,10 @@ MyWidget::MyWidget(QWidget *parent) :
     //    QImage image("../img.png");
 
     QPixmap pix;
-//
+    //
     ifstream::pos_type size;
     char * memblock;
-//
+    //
     ifstream file("../img.raw", ios::in | ios::binary | ios::ate);
     if (file.is_open()) {
         size = file.tellg();
@@ -38,30 +38,20 @@ MyWidget::MyWidget(QWidget *parent) :
 
         cout << "the complete file content is in memory: " << size << endl;
 
-        uchar * n =(uchar *) memblock;
-        uchar pixDataRGB[] = {255, 0, 0, 0, 0, 255, 0, 0, 255, 255, 0, 0,255, 0, 0, 0, 0, 255, 0, 0, 255, 255, 0, 0}; // Red, Blue, Red, Blue
+        uchar * n = (uchar *) memblock;
 
-//        for (int i = 0; i < 32693; ++i) {
-//            cout << (int)n[i] << ",";
-//        }
-//        cout << endl;
-
-
-//        QImage img((const uchar*)pixDataRGB, 2,4, 6, QImage::Format_RGB888); // 2 pixels width, 2 pixels height, 6 bytes per line, RGB888 format
-        QImage img(n, 1280,480, 8, QImage::Format_RGB888); // 2 pixels width, 2 pixels height, 6 bytes per line, RGB888 format
+        QImage img(n, 640, 320, 640 * 3, QImage::Format_RGB888); // 2 pixels width, 2 pixels height, 6 bytes per line, RGB888 format
 
         QImage scaled = img.scaled(100, 100); // Scale image to show results better
-        QPixmap pix = QPixmap::fromImage(scaled); // Create pixmap from image
+        QPixmap pix = QPixmap::fromImage(img); // Create pixmap from image
         imageLabel->setPixmap(pix); // Show result on a form
 
-//        pix.loadFromData((const uchar*) memblock, size);
+        //        pix.loadFromData((const uchar*) memblock, size);
 
         //            delete[] memblock;
     }
-//
-//    imageLabel->setPixmap(pix);
-
-
+    //
+    //    imageLabel->setPixmap(pix);
 
 
     connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
