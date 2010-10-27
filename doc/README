@@ -1,0 +1,2 @@
+aplay -c 2 -f S16_LE -r 44100 1.out
+cmake -G"Eclipse CDT4 - Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug .
