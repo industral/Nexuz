@@ -23,26 +23,49 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Media/SoundSystem/ALSA/DSP/DSP.cpp"
-#include "Media/SoundSystem/ALSA/Capture/Capture.cpp"
-#include "Network/Connection.cpp"
+#include "Connection.hpp"
 
-//using namespace Nexuz::Media::Audio::SoundSystem::ALSA::DSP;
-using namespace Nexuz::Media::Audio::SoundSystem::ALSA::Capture;
-using namespace Nexuz::Network;
+namespace Nexuz {
+  namespace Network {
+    Connection::Connection() {
+    }
 
-int main() {
-  //  DSP * dsp = new DSP();
-  //
-  //  delete dsp;
-  //  dsp = NULL;
+    Connection::~Connection() {
+    }
 
-  Connection * conn = new Connection();
-  conn -> openOut();
+    bool Connection::openOut() {
+//      char message[] = "Hello there!\n";
+//      char buf[sizeof(message)];
 
-  Capture * mic = new Capture();
-  mic -> init();
-  mic -> start(conn);
+      struct sockaddr_in addr;
 
-  return 0;
+      this -> sock = socket(AF_INET, SOCK_STREAM, 0);
+      if (this -> sock < 0) {
+        perror("socket");
+        exit(1);
+      }
+
+      addr.sin_family = AF_INET;
+      addr.sin_port = htons(3425); // или любой другой порт...
+      addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+      if (connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+        perror("connect");
+        exit(2);
+      }
+
+      //      send(sock, message, sizeof(message), 0);
+      //      recv(sock, buf, sizeof(message), 0);
+      //
+      //      printf(buf);
+    }
+
+    bool Connection::writeOut(void * data, int size) {
+      send(sock, data, size, 0);
+//      recv(sock, buf, sizeof(message), 0);
+
+//      printf(buf);
+    }
+
+  }
 }
+

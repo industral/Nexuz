@@ -55,7 +55,7 @@ namespace Nexuz {
               return true;
             }
 
-            bool Capture::start() {
+            bool Capture::start(Connection * conn) {
               snd_pcm_uframes_t frames = 32;
               int size = frames * 4;
               int rc;
@@ -73,9 +73,12 @@ namespace Nexuz {
                 } else if (rc != (int) frames) {
                   fprintf(stderr, "short read, read %d frames\n", rc);
                 }
-                rc = write(1, buffer, size);
-                if (rc != size)
-                  fprintf(stderr, "short write: wrote %d bytes\n", rc);
+//                rc = write(1, buffer, size);
+
+//                cout << size << endl;
+                conn -> writeOut(buffer, size);
+//                if (rc != size)
+//                  fprintf(stderr, "short write: wrote %d bytes\n", rc);
               }
 
             }

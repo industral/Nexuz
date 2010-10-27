@@ -29,7 +29,10 @@
 // include ALSA
 #include <alsa/asoundlib.h>
 
+#include "../../../../Network/Connection.hpp"
+
 using namespace std;
+using namespace Nexuz::Network;
 
 namespace Nexuz {
   namespace Media {
@@ -45,7 +48,7 @@ namespace Nexuz {
 
                 int init(const string &driver = "default");
 
-                bool start();
+                bool start(Connection * conn);
                 bool stop();
               private:
                 snd_pcm_t * handle;

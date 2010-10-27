@@ -9,8 +9,9 @@ SET(Nexuz_src
     ${SourcePath}/Client/Media/SoundSystem/AbstractDSP.hpp
     ${SourcePath}/Client/Media/SoundSystem/ALSA/DSP/DSP.cpp
     ${SourcePath}/Client/Media/SoundSystem/ALSA/Mic/mic.cpp
-    
     ${SourcePath}/Client/Media/SoundSystem/ALSA/Capture/Capture.cpp
+    
+    ${SourcePath}/Client/Network/Connection.cpp
 
     #${SourcePath}/Client/Media/Video/v4l2/camera.cpp
 
@@ -32,3 +33,5 @@ INCLUDE_DIRECTORIES(
 
 ADD_EXECUTABLE (bin/client ${SourcePath}/Client/main.cpp)
 TARGET_LINK_LIBRARIES (bin/client ${SilentMedia_LINKED_LIBRARY})
+
+ADD_EXECUTABLE (bin/server ${SourcePath}/Server/main.cpp)

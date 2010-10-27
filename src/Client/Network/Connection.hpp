@@ -23,26 +23,30 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Media/SoundSystem/ALSA/DSP/DSP.cpp"
-#include "Media/SoundSystem/ALSA/Capture/Capture.cpp"
-#include "Network/Connection.cpp"
+#ifndef _NEXUZ_NETWORK_CONNECTION_HPP_
+#define _NEXUZ_NETWORK_CONNECTION_HPP_
 
-//using namespace Nexuz::Media::Audio::SoundSystem::ALSA::DSP;
-using namespace Nexuz::Media::Audio::SoundSystem::ALSA::Capture;
-using namespace Nexuz::Network;
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
-int main() {
-  //  DSP * dsp = new DSP();
-  //
-  //  delete dsp;
-  //  dsp = NULL;
+using namespace std;
 
-  Connection * conn = new Connection();
-  conn -> openOut();
+namespace Nexuz {
+  namespace Network {
 
-  Capture * mic = new Capture();
-  mic -> init();
-  mic -> start(conn);
+    class Connection {
+      public:
+        Connection();
+        ~Connection();
 
-  return 0;
+        bool openOut();
+        bool writeOut(void * data, int size);
+      private:
+        int sock;
+    };
+
+  }
 }
+
+#endif
