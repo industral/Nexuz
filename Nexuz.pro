@@ -1,12 +1,17 @@
 CONFIG      += uitools qt warn_on DEBUG_MODE #RELEASE_MODE
+QT          += network script
 RESOURCES   = Nexuz.qrc
 
 SOURCES     = src/Client/GUI/Helper/LoadUI.cpp \
               src/Client/GUI/MainWindow.cpp \
-              src/Client/GUI/main.cpp
+              src/Client/Network/Connection.cpp \
+              src/Client/Process.cpp \
+              src/Client/main.cpp
 
 HEADERS     = src/Client/GUI/MainWindow.hpp \
               src/Client/GUI/Helper/LoadUI.hpp \
+              src/Client/Network/Connection.hpp \
+              src/Client/Process.hpp \
               src/Client/include.hpp
 
 Libraries = 

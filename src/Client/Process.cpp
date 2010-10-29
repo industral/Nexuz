@@ -23,39 +23,20 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "MainWindow.hpp"
+#include "Process.hpp"
 
 namespace Nexuz {
-  namespace GUI {
-    MainWindow::MainWindow(QWidget *parent) :
-      QWidget(parent) {
-    }
-
-    MainWindow::~MainWindow() {
-    }
-
-    void MainWindow::load() {
-      QVBoxLayout *layout = new QVBoxLayout;
-
-      QMainWindow * mainWidget = (QMainWindow *) LoadUI::loadUI(":/forms/src/Client/GUI/design/MainWindow.ui");
-      QWidget * contacts = LoadUI::loadUI(":/forms/src/Client/GUI/design/Contacts.ui");
-
-      // add "About Player" handler
-      connect(mainWidget -> findChild<QAction *> ("actionAbout"), SIGNAL(triggered()), this, SLOT(about()));
-
-      mainWidget -> setCentralWidget(contacts);
-      mainWidget -> show();
-    }
-
-    void MainWindow::about() {
-      QWidget * widget = LoadUI::loadUI(":/forms/src/Client/GUI/design/About.ui");
-      if (widget != NULL) {
-        widget -> show();
-      } else {
-        cerr << "Failed to open widget" << endl;
-      }
-    }
-
+  Process::Process() {
   }
-}
 
+  Process::~Process() {
+  }
+
+  void Process::init() {
+
+    // connect to server
+    Network::Connection * conn = new Network::Connection();
+    conn -> auth();
+  }
+
+}

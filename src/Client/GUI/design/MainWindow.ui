@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Nexuz</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -25,7 +25,7 @@
    </property>
    <widget class="QMenu" name="menuAsdasd">
     <property name="title">
-     <string>Nexuz</string>
+     <string>Action</string>
     </property>
     <addaction name="actionSearch_buddies"/>
     <addaction name="actionAdd_new_buddie"/>
@@ -71,5 +71,22 @@
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>143</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

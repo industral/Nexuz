@@ -26,18 +26,26 @@
 #ifndef _NEXUZ_NETWORK_CONNECTION_HPP_
 #define _NEXUZ_NETWORK_CONNECTION_HPP_
 
-using namespace std;
+#include <include.hpp>
+#include <QtNetwork>
+#include <QtScript>
 
 namespace Nexuz {
   namespace Network {
 
-    class Connection {
+    class Connection: public QWidget {
+      Q_OBJECT
+
       public:
-        Connection();
+        Connection(QWidget *parent = 0);
         ~Connection();
 
-        bool openOut();
+        bool auth();private slots:
+        void httpFinished();
+        void slotError(QNetworkReply::NetworkError err);
       private:
+        QNetworkReply *reply;
+        QNetworkAccessManager * manager; // NOTE: this should be as a member of class
     };
 
   }

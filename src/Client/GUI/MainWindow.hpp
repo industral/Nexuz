@@ -32,12 +32,14 @@
 namespace Nexuz {
   namespace GUI {
 
-    class MainWindow {
+    class MainWindow: public QWidget {
+      Q_OBJECT
+
       public:
         /**
          * Default constructor.
          */
-        MainWindow();
+        MainWindow(QWidget *parent = 0);
 
         /**
          * Default destructor.
@@ -46,6 +48,8 @@ namespace Nexuz {
 
         void load();
       private:
+      private slots:
+        void about();
     };
   }
 }

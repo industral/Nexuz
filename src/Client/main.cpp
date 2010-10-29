@@ -23,26 +23,49 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Media/SoundSystem/ALSA/DSP/DSP.cpp"
-#include "Media/SoundSystem/ALSA/Capture/Capture.cpp"
-#include "Network/Connection.cpp"
+//#include "Media/SoundSystem/ALSA/DSP/DSP.cpp"
+//#include "Media/SoundSystem/ALSA/Capture/Capture.cpp"
+//#include "Network/Connection.cpp"
+//
+////using namespace Nexuz::Media::Audio::SoundSystem::ALSA::DSP;
+//using namespace Nexuz::Media::Audio::SoundSystem::ALSA::Capture;
+//using namespace Nexuz::Network;
+//
+//int main() {
+//  //  DSP * dsp = new DSP();
+//  //
+//  //  delete dsp;
+//  //  dsp = NULL;
+//
+//  Connection * conn = new Connection();
+//  conn -> openOut();
+//
+//  Capture * mic = new Capture();
+//  mic -> init();
+//  mic -> start(conn);
+//
+//  return 0;
+//}
 
-//using namespace Nexuz::Media::Audio::SoundSystem::ALSA::DSP;
-using namespace Nexuz::Media::Audio::SoundSystem::ALSA::Capture;
-using namespace Nexuz::Network;
 
-int main() {
-  //  DSP * dsp = new DSP();
-  //
-  //  delete dsp;
-  //  dsp = NULL;
+#include "GUI/MainWindow.hpp"
+#include "Process.hpp"
 
-  Connection * conn = new Connection();
-  conn -> openOut();
+using namespace Nexuz;
+using namespace Nexuz::GUI;
 
-  Capture * mic = new Capture();
-  mic -> init();
-  mic -> start(conn);
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
 
-  return 0;
+  MainWindow * mainWindow = new MainWindow();
+  mainWindow -> load();
+
+  Process * process = new Process();
+  process -> init();
+
+  //  delete mainWindow;
+  //  mainWindow = NULL;
+
+  return app.exec();
 }
+

@@ -27,13 +27,54 @@
 
 namespace Nexuz {
   namespace Network {
-    Connection::Connection() {
+    Connection::Connection(QWidget *parent) :
+      QWidget(parent) {
     }
 
     Connection::~Connection() {
     }
 
-    bool Connection::openOut() {
+    bool Connection::auth() {
+      this -> manager = new QNetworkAccessManager();
+
+      QNetworkRequest request;
+      request.setUrl(QUrl("http://localhost:5984"));
+
+      this -> reply = this -> manager -> get(request);
+      connect(reply, SIGNAL(readyRead()), this, SLOT(httpFinished()));
+      connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError(QNetworkReply::NetworkError)));
+
+      return true;
+    }
+
+    void Connection::httpFinished() {
+      QString response = QString("[") + QString(this -> reply -> readAll().data()) + QString("]");
+
+      QScriptEngine engine;
+      QScriptValue sc = engine.evaluate(response);
+
+      cout << sc.property("0").property("couchdb").toString().toStdString() << endl;
+
+      //      if (sc.property("result").isArray()) {
+      //        QScriptValueIterator it(sc.property("result"));
+      //        while (it.hasNext()) {
+      //          it.next();
+      //          qDebug("Nick %s", it.value().property("nick").toString().toStdString().c_str());
+      //        }
+      //      }
+
+    }
+
+    void Connection::slotError(QNetworkReply::NetworkError error) {
+
+      QMetaObject meta = QNetworkReply::staticMetaObject;
+      for (int i = 0; i < meta.enumeratorCount(); ++i) {
+        QMetaEnum m = meta.enumerator(i);
+        if (m.name() == QLatin1String("NetworkError")) {
+          cerr << m.valueToKey(error) << endl;
+          break;
+        }
+      }
 
     }
 
