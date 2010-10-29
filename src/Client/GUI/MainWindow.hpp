@@ -23,20 +23,31 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Connection.hpp"
+#ifndef _NEXUZ_GUI_MAINWINDOW_HPP_
+#define _NEXUZ_GUI_MAINWINDOW_HPP_
+
+#include <include.hpp>
+#include "Helper/LoadUI.hpp"
 
 namespace Nexuz {
-  namespace Network {
-    Connection::Connection() {
-    }
+  namespace GUI {
 
-    Connection::~Connection() {
-    }
+    class MainWindow {
+      public:
+        /**
+         * Default constructor.
+         */
+        MainWindow();
 
-    bool Connection::openOut() {
+        /**
+         * Default destructor.
+         */
+        ~MainWindow();
 
-    }
-
+        void load();
+      private:
+    };
   }
 }
 
+#endif

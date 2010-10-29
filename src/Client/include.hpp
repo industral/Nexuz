@@ -23,20 +23,27 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Connection.hpp"
+#ifndef _NEXUZ_INCLUDE_HPP_
+#define _NEXUZ_INCLUDE_HPP_
 
-namespace Nexuz {
-  namespace Network {
-    Connection::Connection() {
-    }
+// C++ header
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <map>
+#include <list>
+#include <vector>
+#include <fstream>
 
-    Connection::~Connection() {
-    }
+// C header
+#include <cstdio>
 
-    bool Connection::openOut() {
+// Qt
+#include <QtGui>
+#include <QWidget>
+#include <QUiLoader>
 
-    }
+// namespace
+using namespace std;
 
-  }
-}
-
+#endif

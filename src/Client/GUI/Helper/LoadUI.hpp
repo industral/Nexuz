@@ -23,20 +23,44 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Connection.hpp"
+#ifndef _NEXUZ_GUI_LOADUI_HPP_
+#define _NEXUZ_GUI_LOADUI_HPP_
+
+#include <include.hpp>
 
 namespace Nexuz {
-  namespace Network {
-    Connection::Connection() {
-    }
+  namespace GUI {
+    /**
+     * Util class. Help to load UI resource files. Very simple in use:
+     * @code
+     * QWidget * widget = LoadUI::loadUI(":/forms/designer/Collection.ui");
+     * @endcode
+     * Next, you can access any elements in widget:
+     * @code
+     * widget -> findChild < QPushButton * > ("closeButton");
+     * @endcode
+     */
+    class LoadUI {
+      public:
+        /**
+         * Default constructor.
+         */
+        LoadUI();
 
-    Connection::~Connection() {
-    }
+        /**
+         * Default destructor.
+         */
+        ~LoadUI();
 
-    bool Connection::openOut() {
-
-    }
-
+        /**
+         * Main load method. Provide loading UI resource files.
+         * @param uiPath path to UI resource file.
+         * @return QWidget pointer.
+         */
+        static QWidget * loadUI(const string& uiPath);
+      private:
+    };
   }
 }
 
+#endif

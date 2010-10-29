@@ -23,20 +23,20 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Connection.hpp"
+#include "MainWindow.hpp"
 
 namespace Nexuz {
-  namespace Network {
-    Connection::Connection() {
+  namespace GUI {
+    MainWindow::MainWindow() {
     }
 
-    Connection::~Connection() {
+    MainWindow::~MainWindow() {
     }
 
-    bool Connection::openOut() {
-
+    void MainWindow::load() {
+      QWidget * widget = LoadUI::loadUI(":/forms/src/Client/GUI/design/MainWindow.ui");
+      widget -> show();
     }
 
   }
 }
-

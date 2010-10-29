@@ -26,10 +26,6 @@
 #ifndef _NEXUZ_NETWORK_CONNECTION_HPP_
 #define _NEXUZ_NETWORK_CONNECTION_HPP_
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
 using namespace std;
 
 namespace Nexuz {
@@ -41,9 +37,7 @@ namespace Nexuz {
         ~Connection();
 
         bool openOut();
-        bool writeOut(void * data, int size);
       private:
-        int sock;
     };
 
   }

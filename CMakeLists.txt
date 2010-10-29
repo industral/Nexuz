@@ -11,7 +11,11 @@ SET(Nexuz_src
     ${SourcePath}/Client/Media/SoundSystem/ALSA/Mic/mic.cpp
     ${SourcePath}/Client/Media/SoundSystem/ALSA/Capture/Capture.cpp
     
+    ${SourcePath}/Client/Network/Port.cpp
     ${SourcePath}/Client/Network/Connection.cpp
+    
+    ${SourcePath}/Client/GUI/Helper/LoadUI.cpp
+    ${SourcePath}/Client/GUI/MainWindow.cpp
 
     #${SourcePath}/Client/Media/Video/v4l2/camera.cpp
 

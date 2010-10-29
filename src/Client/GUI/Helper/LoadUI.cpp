@@ -23,20 +23,28 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Connection.hpp"
+#include "LoadUI.hpp"
 
 namespace Nexuz {
-  namespace Network {
-    Connection::Connection() {
+  namespace GUI {
+    LoadUI::LoadUI() {
     }
 
-    Connection::~Connection() {
+    LoadUI::~LoadUI() {
     }
 
-    bool Connection::openOut() {
-
+    QWidget * LoadUI::loadUI(const string& uiPath) {
+      QUiLoader loader;
+      QFile file(uiPath.c_str());
+      if (file.open(QFile::ReadOnly) == true) {
+        QWidget * widget = loader.load(&file, 0);
+        file.close();
+        return widget;
+      } else {
+        cerr << "Couldn't find specified file: " << uiPath << endl;
+        exit(1);
+      }
     }
 
   }
 }
-

@@ -23,20 +23,30 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Connection.hpp"
+#ifndef _NEXUZ_NETWORK_PORT_HPP_
+#define _NEXUZ_NETWORK_PORT_HPP_
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+using namespace std;
 
 namespace Nexuz {
   namespace Network {
-    Connection::Connection() {
-    }
 
-    Connection::~Connection() {
-    }
+    class Port {
+      public:
+        Port();
+        ~Port();
 
-    bool Connection::openOut() {
-
-    }
+        bool openOut();
+        bool writeOut(void * data, int size);
+      private:
+        int sock;
+    };
 
   }
 }
 
+#endif
