@@ -55,6 +55,12 @@ namespace Nexuz {
 
       cout << sc.property("0").property("couchdb").toString().toStdString() << endl;
 
+//      QScriptValue sv;
+//      Helper::Utils::parseJSON(/*QString(this -> reply -> readAll().data())*/"{'couchdb': '1'}", sv, a);
+//      //      qDebug() << sv.toString();
+//
+//      cout << sv.property("0").property("couchdb").toString().toStdString() << endl;
+
       //      if (sc.property("result").isArray()) {
       //        QScriptValueIterator it(sc.property("result"));
       //        while (it.hasNext()) {

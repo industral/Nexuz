@@ -23,29 +23,22 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_INCLUDE_HPP_
-#define _NEXUZ_INCLUDE_HPP_
+#ifndef _NEXUZ_NETWORK_HELPER_UTILS_HPP_
+#define _NEXUZ_NETWORK_HELPER_UTILS_HPP_
 
-// C++ header
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <map>
-#include <list>
-#include <vector>
-#include <fstream>
+#include <include.hpp>
 
-// C header
-#include <cstdio>
+namespace Nexuz {
+  namespace Network {
+    namespace Helper {
 
-// Qt
-#include <QtGui>
-#include <QWidget>
-#include <QUiLoader>
-#include <QtScript>
-#include <QtNetwork>
+      class Utils {
+        public:
+          static void parseJSON(const QString & data, QScriptValue & sv);
+      };
 
-// namespace
-using namespace std;
+    }
+  }
+}
 
 #endif

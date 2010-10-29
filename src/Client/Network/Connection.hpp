@@ -27,8 +27,7 @@
 #define _NEXUZ_NETWORK_CONNECTION_HPP_
 
 #include <include.hpp>
-#include <QtNetwork>
-#include <QtScript>
+#include "Helper/Utils.hpp"
 
 namespace Nexuz {
   namespace Network {

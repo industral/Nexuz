@@ -4,15 +4,17 @@ RESOURCES   = Nexuz.qrc
 
 SOURCES     = src/Client/GUI/Helper/LoadUI.cpp \
               src/Client/GUI/MainWindow.cpp \
+              src/Client/Network/Helper/Utils.cpp \
               src/Client/Network/Connection.cpp \
               src/Client/Process.cpp \
               src/Client/main.cpp
 
-HEADERS     = src/Client/GUI/MainWindow.hpp \
+HEADERS     = src/Client/include.hpp \
+              src/Client/GUI/MainWindow.hpp \
               src/Client/GUI/Helper/LoadUI.hpp \
+              src/Client/Network/Helper/Utils.hpp \
               src/Client/Network/Connection.hpp \
-              src/Client/Process.hpp \
-              src/Client/include.hpp
+              src/Client/Process.hpp
 
 Libraries = 
 

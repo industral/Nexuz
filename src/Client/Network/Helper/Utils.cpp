@@ -23,21 +23,20 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_INCLUDE_HPP_
-#define _NEXUZ_INCLUDE_HPP_
+#include "Utils.hpp"
 
-// C++ header
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <map>
-#include <list>
-#include <vector>
-#include <fstream>
+namespace Nexuz {
+  namespace Network {
+    namespace Helper {
 
-// C header
-#include <cstdio>
-#include <ctime> // time
-#include <climits> // limits
+      void Utils::parseJSON(const QString & data, QScriptValue & sv) {
+        QString response = QString("[") + data + QString("]");
 
-#endif
+        QScriptEngine engine;
+        sv = engine.evaluate(response);
+      }
+
+    }
+
+  }
+}
