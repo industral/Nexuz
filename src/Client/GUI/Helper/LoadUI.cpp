@@ -33,15 +33,17 @@ namespace Nexuz {
     LoadUI::~LoadUI() {
     }
 
-    QWidget * LoadUI::loadUI(const string& uiPath) {
+    QWidget * LoadUI::loadUI(const QString & uiPath) {
       QUiLoader loader;
-      QFile file(uiPath.c_str());
+
+      QFile file(uiPath);
       if (file.open(QFile::ReadOnly) == true) {
         QWidget * widget = loader.load(&file, 0);
         file.close();
         return widget;
       } else {
-        cerr << "Couldn't find specified file: " << uiPath << endl;
+        cerr << "Couldn't find specified file: " << uiPath.toStdString() << endl;
+        cerr << "Maybe it missed in qrc file, or wrong pointed it's path" << endl;
         exit(1);
       }
     }

@@ -37,25 +37,55 @@ namespace Nexuz {
     void MainWindow::load() {
       QVBoxLayout *layout = new QVBoxLayout;
 
-      QMainWindow * mainWidget = (QMainWindow *) LoadUI::loadUI(":/forms/src/Client/GUI/design/MainWindow.ui");
+      this -> mainWidget = (QMainWindow *) LoadUI::loadUI(":/forms/src/Client/GUI/design/MainWindow.ui");
       QWidget * contacts = LoadUI::loadUI(":/forms/src/Client/GUI/design/Contacts.ui");
 
-      // add "About Player" handler
-      connect(mainWidget -> findChild<QAction *> ("actionAbout"), SIGNAL(triggered()), this, SLOT(about()));
+      // add events
+      this -> addEvents();
 
-      mainWidget -> setCentralWidget(contacts);
-      mainWidget -> show();
+      this -> mainWidget -> setCentralWidget(contacts);
+      this -> mainWidget -> show();
     }
 
-    void MainWindow::about() {
-      QWidget * widget = LoadUI::loadUI(":/forms/src/Client/GUI/design/About.ui");
-      if (widget != NULL) {
-        widget -> show();
-      } else {
-        cerr << "Failed to open widget" << endl;
-      }
-    }
+    void MainWindow::addEvents() {
+      // create signals mapper
+      this -> signalMapper = new QSignalMapper(this);
 
+      // get actions
+      QAction * actionAbout = this -> mainWidget -> findChild<QAction *> ("actionAbout");
+      QAction * actionManageAccounts = this -> mainWidget -> findChild<QAction *> ("actionManageAccounts");
+
+      // map actions
+      this -> signalMapper -> setMapping(actionAbout, QString("About"));
+      this -> signalMapper -> setMapping(actionManageAccounts, QString("SetupAccounts"));
+
+      // connect actions
+      connect(actionAbout, SIGNAL(triggered()), this -> signalMapper, SLOT(map()));
+      connect(actionManageAccounts, SIGNAL(triggered()), this -> signalMapper, SLOT(map()));
+
+      // connect signal mapper
+connect    (signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(doAction(const QString &)));
   }
+
+  void MainWindow::doAction(const QString & action) {
+    QWidget * widget = LoadUI::loadUI(":/forms/src/Client/GUI/design/" + action + ".ui");
+
+    if (widget != NULL) {
+
+      // attach events on widgets
+      if (action == "SetupAccounts") {
+        QPushButton * addAccount = widget -> findChild<QPushButton *> ("addAccount");
+        this -> signalMapper -> setMapping(addAccount, QString("AddAccount"));
+        connect(addAccount, SIGNAL(clicked()), this -> signalMapper, SLOT(map()));
+      }
+
+      widget -> show();
+
+    } else {
+      cerr << "Failed to open widget" << endl;
+    }
+  }
+
+}
 }
 

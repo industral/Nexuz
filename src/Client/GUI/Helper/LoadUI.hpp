@@ -57,7 +57,7 @@ namespace Nexuz {
          * @param uiPath path to UI resource file.
          * @return QWidget pointer.
          */
-        static QWidget * loadUI(const string& uiPath);
+        static QWidget * loadUI(const QString & uiPath);
       private:
     };
   }

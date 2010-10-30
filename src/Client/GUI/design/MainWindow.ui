@@ -25,8 +25,10 @@
    </property>
    <widget class="QMenu" name="menuAsdasd">
     <property name="title">
-     <string>Action</string>
+     <string>Accounts</string>
     </property>
+    <addaction name="actionManageAccounts"/>
+    <addaction name="separator"/>
     <addaction name="actionSearch_buddies"/>
     <addaction name="actionAdd_new_buddie"/>
     <addaction name="separator"/>
@@ -40,7 +42,14 @@
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionSettings"/>
+   </widget>
    <addaction name="menuAsdasd"/>
+   <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -67,6 +76,16 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionManageAccounts">
+   <property name="text">
+    <string>Setup accounts</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

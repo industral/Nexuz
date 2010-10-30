@@ -47,11 +47,18 @@ namespace Nexuz {
         ~MainWindow();
 
         void load();
+
+        /**
+         * Add action events.
+         */
+        void addEvents();
       private:
-      private slots:
-        void about();
-    };
-  }
+        QMainWindow * mainWidget;
+        QSignalMapper * signalMapper;
+private    slots:
+    void doAction(const QString & action);
+  };
+}
 }
 
 #endif
