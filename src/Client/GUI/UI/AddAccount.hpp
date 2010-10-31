@@ -23,30 +23,39 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "LoadUI.hpp"
+#ifndef _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
+#define _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
+
+#include <include.hpp>
+#include "../Helper/Utils.hpp"
 
 namespace Nexuz {
   namespace GUI {
-    LoadUI::LoadUI() {
-    }
+    namespace UI {
 
-    LoadUI::~LoadUI() {
-    }
+      class AddAccount: public QWidget {
+        Q_OBJECT
 
-    QWidget * LoadUI::loadUI(const QString & uiPath) {
-      QUiLoader loader;
+        public:
+          /**
+           * Default constructor.
+           */
+          AddAccount(QWidget *parent = 0);
 
-      QFile file(uiPath);
-      if (file.open(QFile::ReadOnly) == true) {
-        QWidget * widget = loader.load(&file, 0);
-        file.close();
-        return widget;
-      } else {
-        cerr << "Couldn't find specified file: " << uiPath.toStdString() << endl;
-        cerr << "Maybe it missed in qrc file, or wrong pointed it's path" << endl;
-        exit(1);
-      }
-    }
+          /**
+           * Default destructor.
+           */
+          ~AddAccount();
 
+          void init();
+        private:
+          //          QMainWindow * mainWidget;
+          //          QSignalMapper * signalMapper;
+private      slots:
+      //      void doAction(const QString & action);
+    };
   }
 }
+}
+
+#endif

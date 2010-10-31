@@ -23,44 +23,24 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_LOADUI_HPP_
-#define _NEXUZ_GUI_LOADUI_HPP_
-
-#include <include.hpp>
+#include "AddAccount.hpp"
 
 namespace Nexuz {
   namespace GUI {
-    /**
-     * Util class. Help to load UI resource files. Very simple in use:
-     * @code
-     * QWidget * widget = LoadUI::loadUI(":/forms/designer/Collection.ui");
-     * @endcode
-     * Next, you can access any elements in widget:
-     * @code
-     * widget -> findChild < QPushButton * > ("closeButton");
-     * @endcode
-     */
-    class LoadUI {
-      public:
-        /**
-         * Default constructor.
-         */
-        LoadUI();
+    namespace UI {
+      AddAccount::AddAccount(QWidget *parent) :
+        QWidget(parent) {
+      }
 
-        /**
-         * Default destructor.
-         */
-        ~LoadUI();
+      AddAccount::~AddAccount() {
+      }
 
-        /**
-         * Main load method. Provide loading UI resource files.
-         * @param uiPath path to UI resource file.
-         * @return QWidget pointer.
-         */
-        static QWidget * loadUI(const QString & uiPath);
-      private:
-    };
+      void AddAccount::init() {
+        QWidget * widget = Nexuz::GUI::Helper::Utils::loadUI(":/forms/src/Client/GUI/design/AddAccount.ui");
+
+        Nexuz::GUI::Helper::Utils::toggleLayout(widget, "customServer", false);
+      }
+
+    }
   }
 }
-
-#endif

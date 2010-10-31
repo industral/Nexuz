@@ -37,8 +37,8 @@ namespace Nexuz {
     void MainWindow::load() {
       QVBoxLayout *layout = new QVBoxLayout;
 
-      this -> mainWidget = (QMainWindow *) LoadUI::loadUI(":/forms/src/Client/GUI/design/MainWindow.ui");
-      QWidget * contacts = LoadUI::loadUI(":/forms/src/Client/GUI/design/Contacts.ui");
+      this -> mainWidget = (QMainWindow *) Helper::Utils::loadUI(":/forms/src/Client/GUI/design/MainWindow.ui");
+      QWidget * contacts = Helper::Utils::loadUI(":/forms/src/Client/GUI/design/Contacts.ui");
 
       // add events
       this -> addEvents();
@@ -68,24 +68,30 @@ connect    (signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(doAction(c
   }
 
   void MainWindow::doAction(const QString & action) {
-    QWidget * widget = LoadUI::loadUI(":/forms/src/Client/GUI/design/" + action + ".ui");
+    //TODO: one instance
+    QWidget * widget = Helper::Utils::loadUI(":/forms/src/Client/GUI/design/" + action + ".ui");
 
     if (widget != NULL) {
+      widget -> show();
 
       // attach events on widgets
       if (action == "SetupAccounts") {
         QPushButton * addAccount = widget -> findChild<QPushButton *> ("addAccount");
         this -> signalMapper -> setMapping(addAccount, QString("AddAccount"));
         connect(addAccount, SIGNAL(clicked()), this -> signalMapper, SLOT(map()));
+      } else if (action == "AddAccount") {
+        QTimer::singleShot(1000, this, SLOT(test()));
       }
-
-      widget -> show();
 
     } else {
       cerr << "Failed to open widget" << endl;
     }
   }
 
-}
-}
+  void MainWindow::test() {
+    UI::AddAccount account;
+    account.init();
+  }
 
+}
+}

@@ -23,45 +23,59 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_MAINWINDOW_HPP_
-#define _NEXUZ_GUI_MAINWINDOW_HPP_
+#ifndef _NEXUZ_GUI_HELPER_UTILS_HPP_
+#define _NEXUZ_GUI_HELPER_UTILS_HPP_
 
 #include <include.hpp>
-#include "Helper/Utils.hpp"
-
-#include "UI/AddAccount.hpp"
 
 namespace Nexuz {
   namespace GUI {
+    namespace Helper {
 
-    class MainWindow: public QWidget {
-      Q_OBJECT
+      /**
+       * Utils class.
+       */
+      class Utils {
+        public:
+          /**
+           * Default constructor.
+           */
+          Utils();
 
-      public:
-        /**
-         * Default constructor.
-         */
-        MainWindow(QWidget *parent = 0);
+          /**
+           * Default destructor.
+           */
+          ~Utils();
 
-        /**
-         * Default destructor.
-         */
-        ~MainWindow();
+          /**
+           * Help to load UI resource files. Very simple in use:
+           * @code
+           * QWidget * widget = LoadUI::loadUI(":/forms/designer/Collection.ui");
+           * @endcode
+           * Next, you can access any elements in widget:
+           * @code
+           * widget -> findChild < QPushButton * > ("closeButton");
+           * @endcode
+           *
+           * @param uiPath path to UI resource file.
+           *
+           * @return QWidget pointer.
+           */
+          static QWidget * loadUI(const QString & uiPath);
 
-        void load();
+          /**
+           * Show/Hide layout.
+           *
+           * @param widget widget object
+           * @param layoutName layout name
+           * @param show show or hide all widgets in layout
+           */
+          static void toggleLayout(QWidget * widget, QString layoutName, bool show);
+        private:
+      };
 
-        /**
-         * Add action events.
-         */
-        void addEvents();
-      private:
-        QMainWindow * mainWidget;
-        QSignalMapper * signalMapper;
-private    slots:
-    void doAction(const QString & action);
-    void test();
-  };
-}
+    }
+  }
 }
 
 #endif

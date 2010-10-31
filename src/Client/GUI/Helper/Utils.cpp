@@ -23,45 +23,44 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_MAINWINDOW_HPP_
-#define _NEXUZ_GUI_MAINWINDOW_HPP_
-
-#include <include.hpp>
-#include "Helper/Utils.hpp"
-
-#include "UI/AddAccount.hpp"
+#include "Utils.hpp"
 
 namespace Nexuz {
   namespace GUI {
+    namespace Helper {
 
-    class MainWindow: public QWidget {
-      Q_OBJECT
+      Utils::Utils() {
+      }
 
-      public:
-        /**
-         * Default constructor.
-         */
-        MainWindow(QWidget *parent = 0);
+      Utils::~Utils() {
+      }
 
-        /**
-         * Default destructor.
-         */
-        ~MainWindow();
+      QWidget * Utils::loadUI(const QString & uiPath) {
+        QUiLoader loader;
 
-        void load();
+        QFile file(uiPath);
+        if (file.open(QFile::ReadOnly) == true) {
+          QWidget * widget = loader.load(&file, 0);
 
-        /**
-         * Add action events.
-         */
-        void addEvents();
-      private:
-        QMainWindow * mainWidget;
-        QSignalMapper * signalMapper;
-private    slots:
-    void doAction(const QString & action);
-    void test();
-  };
+          file.close();
+          return widget;
+        } else {
+          cerr << "Couldn't find specified file: " << uiPath.toStdString() << endl;
+          cerr << "Maybe it missed in qrc file, or wrong pointed it's path" << endl;
+          exit(1);
+        }
+      }
+
+      void Utils::toggleLayout(QWidget * widget, QString layoutName, bool show) {
+        QWidget * layerWidget = widget -> findChild<QWidget *> (layoutName);
+//        QList<QWidget *> list = layerWidget -> findChildren<QWidget *> ();
+
+//        for (int i = 1; i < list.size(); ++i) {
+//          qDebug() << list.at(i) -> objectName();
+//          list.at(i) -> setHidden(true);
+//        }
+      }
+
+    }
+  }
 }
-}
-
-#endif
