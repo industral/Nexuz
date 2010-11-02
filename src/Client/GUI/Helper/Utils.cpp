@@ -53,12 +53,17 @@ namespace Nexuz {
 
       void Utils::toggleLayout(QWidget * widget, QString layoutName, bool show) {
         QWidget * layerWidget = widget -> findChild<QWidget *> (layoutName);
-//        QList<QWidget *> list = layerWidget -> findChildren<QWidget *> ();
 
-//        for (int i = 1; i < list.size(); ++i) {
-//          qDebug() << list.at(i) -> objectName();
-//          list.at(i) -> setHidden(true);
-//        }
+        cout << "hide widget..." << endl;
+
+        layerWidget -> setVisible(false);
+
+        //        QList<QWidget *> list = layerWidget -> findChildren<QWidget *> ();
+        //        for (int i = 1; i < list.size(); ++i) {
+        //          qDebug() << list.at(i) -> objectName();
+        //          //                  list.at(i) -> setHidden(true);
+        //        }
+
       }
 
     }
