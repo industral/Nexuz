@@ -28,6 +28,7 @@
 namespace Nexuz {
   namespace GUI {
     namespace UI {
+
       AddAccount::AddAccount(QWidget *parent) :
         QWidget(parent) {
       }
@@ -35,10 +36,53 @@ namespace Nexuz {
       AddAccount::~AddAccount() {
       }
 
-      void AddAccount::init() {
-        QWidget * widget = Nexuz::GUI::Helper::Utils::loadUI(":/forms/src/Client/GUI/design/AddAccount.ui");
+      void AddAccount::init(QWidget * widget) {
+        this -> widget = widget;
 
-        Nexuz::GUI::Helper::Utils::toggleLayout(widget, "customServer", false);
+        QList < QString > toggleLayouts;
+        toggleLayouts << "customServer" << "repeatPassword";
+
+        this -> toggleLayoutsAccountType << "customServer";
+        this -> toggleWidgetsAccountType << "checkUserName" << "checkUserNameOK";
+
+        // hide some layouts and widgets by default
+        Nexuz::GUI::Helper::Utils::toggleLayout(this -> widget, toggleLayouts, false);
+        Nexuz::GUI::Helper::Utils::toggleWidget(this -> widget, this -> toggleWidgetsAccountType, false);
+
+        // add/create account
+        QButtonGroup * accountActionEl = this -> widget-> findChild<QButtonGroup *> ("buttonGroup");
+        connect(accountActionEl, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(changeAccountAction(QAbstractButton *)));
+
+        // account type
+        QComboBox * accountTypeEl = this -> widget-> findChild<QComboBox *> ("accoutType");
+        connect(accountTypeEl, SIGNAL(currentIndexChanged(int)), this, SLOT(changeAccountType(int)));
+      }
+
+      void AddAccount::changeAccountType(int index) {
+        bool toggleView = false;
+
+        if (index == 1) {
+          toggleView = true;
+        }
+
+        Nexuz::GUI::Helper::Utils::toggleLayout(this -> widget, this -> toggleLayoutsAccountType, toggleView);
+      }
+
+      void AddAccount::changeAccountAction(QAbstractButton * button) {
+        this -> toggleAccountActionType(button -> objectName());
+      }
+
+      void AddAccount::toggleAccountActionType(const QString & type) {
+        QList < QString > widgetList;
+
+        bool toggleView = false;
+
+        if (type == "createNew") {
+          toggleView = true;
+        }
+
+        Nexuz::GUI::Helper::Utils::toggleLayout(this -> widget, "repeatPassword", toggleView);
+        Nexuz::GUI::Helper::Utils::toggleWidget(this -> widget, this -> toggleWidgetsAccountType, toggleView);
       }
 
     }

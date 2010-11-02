@@ -47,12 +47,21 @@ namespace Nexuz {
            */
           ~AddAccount();
 
-          void init();
+          /**
+           * Init AddAccount widget.
+           *
+           * @param widget pointer to ariginal loaded widget from ui
+           */
+          void init(QWidget * widget);
+        private slots:
+          void changeAccountType(int index);
+          void changeAccountAction(QAbstractButton * button);
         private:
-          //          QMainWindow * mainWidget;
-          //          QSignalMapper * signalMapper;
-private      slots:
-      //      void doAction(const QString & action);
+          void toggleAccountActionType(const QString & type);
+
+          QList < QString > toggleLayoutsAccountType;
+          QList<QString> toggleWidgetsAccountType;
+          QWidget * widget;
     };
   }
 }

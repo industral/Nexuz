@@ -21,8 +21,8 @@ Libraries =
 StaticLibraries = 
 
 CONFIG(DEBUG_MODE) {
-  QMAKE_CXXFLAGS += -ggdb -Wall -W
-  QMAKE_CFLAGS += -ggdb -Wall -W
+  QMAKE_CXXFLAGS += -ggdb
+  QMAKE_CFLAGS += -ggdb
 
   for(lib, Libraries) {
     LIBS += -l$$lib

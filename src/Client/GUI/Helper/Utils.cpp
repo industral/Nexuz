@@ -52,18 +52,29 @@ namespace Nexuz {
       }
 
       void Utils::toggleLayout(QWidget * widget, QString layoutName, bool show) {
-        QWidget * layerWidget = widget -> findChild<QWidget *> (layoutName);
+        QBoxLayout * layerWidget = widget -> findChild<QBoxLayout *> (layoutName);
 
-        cout << "hide widget..." << endl;
+        // run across all widgets and set them visible/unvisible
+        for (int i = 0; i < layerWidget -> count(); ++i) {
+          layerWidget -> itemAt(i) -> widget() -> setVisible(show);
+        }
+      }
 
-        layerWidget -> setVisible(false);
+      void Utils::toggleLayout(QWidget * widget, const QList<QString> & layoutList, bool show) {
+        for (int i = 0; i < layoutList.size(); ++i) {
+          toggleLayout(widget, layoutList.at(i), show);
+        }
+      }
 
-        //        QList<QWidget *> list = layerWidget -> findChildren<QWidget *> ();
-        //        for (int i = 1; i < list.size(); ++i) {
-        //          qDebug() << list.at(i) -> objectName();
-        //          //                  list.at(i) -> setHidden(true);
-        //        }
+      void Utils::toggleWidget(QWidget * widget, QString widgetName, bool show) {
+        QWidget * toggledWidget = widget -> findChild<QWidget *> (widgetName);
+        toggledWidget -> setVisible(show);
+      }
 
+      void Utils::toggleWidget(QWidget * widget, const QList<QString> & widgetList, bool show) {
+        for (int i = 0; i < widgetList.size(); ++i) {
+          toggleWidget(widget, widgetList.at(i), show);
+        }
       }
 
     }

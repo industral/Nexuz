@@ -80,17 +80,13 @@ connect    (signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(doAction(c
         this -> signalMapper -> setMapping(addAccount, QString("AddAccount"));
         connect(addAccount, SIGNAL(clicked()), this -> signalMapper, SLOT(map()));
       } else if (action == "AddAccount") {
-        QTimer::singleShot(1000, this, SLOT(test()));
+        UI::AddAccount * account = new UI::AddAccount();
+        account -> init(widget);
       }
 
     } else {
       cerr << "Failed to open widget" << endl;
     }
-  }
-
-  void MainWindow::test() {
-    UI::AddAccount account;
-    account.init();
   }
 
 }

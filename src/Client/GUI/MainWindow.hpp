@@ -59,7 +59,6 @@ namespace Nexuz {
         QSignalMapper * signalMapper;
 private    slots:
     void doAction(const QString & action);
-    void test();
   };
 }
 }

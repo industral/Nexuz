@@ -71,6 +71,33 @@ namespace Nexuz {
            * @param show show or hide all widgets in layout
            */
           static void toggleLayout(QWidget * widget, QString layoutName, bool show);
+
+          /**
+           * Show/Hide layouts.
+           *
+           * @param widget widget object
+           * @param layoutList list of layouts
+           * @param show show or hide all widgets in layout
+           */
+          static void toggleLayout(QWidget * widget, const QList<QString> & layoutList, bool show);
+
+          /**
+           * Show/Hide widget.
+           *
+           * @param widget widget object
+           * @param widgetName widget name
+           * @param show show or hide widget
+           */
+          static void toggleWidget(QWidget * widget, QString widgetName, bool show);
+
+          /**
+           * Show/Hide widgets.
+           *
+           * @param widget widget object
+           * @param widgetList widgets list
+           * @param show show or hide widgets
+           */
+          static void toggleWidget(QWidget * widget, const QList<QString> & widgetList, bool show);
         private:
       };
 
