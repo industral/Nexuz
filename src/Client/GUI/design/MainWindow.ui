@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Nexuz</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../../../Nexuz.qrc">
+    <normaloff>:/img/nexuz_logo_small.png</normaloff>:/img/nexuz_logo_small.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -89,7 +93,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../../Nexuz.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>

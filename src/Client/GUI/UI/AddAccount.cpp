@@ -56,6 +56,9 @@ namespace Nexuz {
         // account type
         QComboBox * accountTypeEl = this -> widget-> findChild<QComboBox *> ("accoutType");
         connect(accountTypeEl, SIGNAL(currentIndexChanged(int)), this, SLOT(changeAccountType(int)));
+
+        // track page changes in wizard
+        connect(this -> widget, SIGNAL(currentIdChanged(int)), this, SLOT(wizardPageChanged(int)));
       }
 
       void AddAccount::changeAccountType(int index) {
@@ -83,6 +86,12 @@ namespace Nexuz {
 
         Nexuz::GUI::Helper::Utils::toggleLayout(this -> widget, "repeatPassword", toggleView);
         Nexuz::GUI::Helper::Utils::toggleWidget(this -> widget, this -> toggleWidgetsAccountType, toggleView);
+      }
+
+      void AddAccount::wizardPageChanged(int pageId) {
+        if (pageId == 1) {
+
+        }
       }
 
     }

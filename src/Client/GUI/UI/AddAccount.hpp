@@ -56,6 +56,7 @@ namespace Nexuz {
         private slots:
           void changeAccountType(int index);
           void changeAccountAction(QAbstractButton * button);
+          void wizardPageChanged(int pageId);
         private:
           void toggleAccountActionType(const QString & type);
 
