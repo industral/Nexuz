@@ -23,53 +23,40 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
-#define _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
-
-#include <include.hpp>
-#include "../Helper/Utils.hpp"
+#include "App.hpp"
 
 namespace Nexuz {
-  namespace GUI {
-    namespace UI {
 
-      class AddAccount: public QWidget {
-        Q_OBJECT
-
-        public:
-          /**
-           * Default constructor.
-           */
-          AddAccount(QWidget *parent = 0);
-
-          /**
-           * Default destructor.
-           */
-          ~AddAccount();
-
-          /**
-           * Init AddAccount widget.
-           *
-           * @param widget pointer to ariginal loaded widget from ui
-           */
-          void init(QWidget * widget);
-        private slots:
-          void changeAccountType(int index);
-          void changeAccountAction(QAbstractButton * button);
-          void wizardPageChanged(int pageId);
-          void showErrorList(const QList<QString> errorList);
-        private:
-          void toggleAccountActionType(const QString & type);
-
-          QList < QString > toggleLayoutsAccountType;
-          QList<QString> toggleWidgetsAccountType;
-          QWidget * widget;
-
-          QString accountActionType;
-          int accountType;
-    };
+  App::App() {
+    this -> init();
   }
-}
-}
 
-#endif
+  App::~App() {
+  }
+
+  void App::init() {
+    this -> checkApplicationDir();
+
+    QSettings * settings = Settings::Instance() -> getInstance();
+
+//    AccountInfo contact = { 0, "alex", "qwerty" };
+//    settings -> setValue("accounts", qVariantFromValue(contact));
+
+                AccountInfo contact = settings -> value("accounts").value<AccountInfo> ();
+                qDebug() << contact.accountType << contact.userName << contact.password;
+  }
+
+  // --------------------------------------------------------------------
+  // Private methods
+  // --------------------------------------------------------------------
+
+  void App::checkApplicationDir() {
+    const QString appPath = QDir::homePath() + QDir::separator() + USER_APPLICATION_FOLDER_NAME;
+
+    if (!qDir.exists(appPath)) {
+      qDir.mkdir(appPath);
+    }
+
+  }
+
+}

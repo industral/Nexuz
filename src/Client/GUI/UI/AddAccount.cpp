@@ -30,7 +30,7 @@ namespace Nexuz {
     namespace UI {
 
       AddAccount::AddAccount(QWidget *parent) :
-        QWidget(parent) {
+        QWidget(parent), accountType(0) {
       }
 
       AddAccount::~AddAccount() {
@@ -68,6 +68,8 @@ namespace Nexuz {
           toggleView = true;
         }
 
+        this -> accountType = toggleView;
+
         Nexuz::GUI::Helper::Utils::toggleLayout(this -> widget, this -> toggleLayoutsAccountType, toggleView);
       }
 
@@ -84,6 +86,8 @@ namespace Nexuz {
           toggleView = true;
         }
 
+        this -> accountActionType = type;
+
         Nexuz::GUI::Helper::Utils::toggleLayout(this -> widget, "repeatPassword", toggleView);
         Nexuz::GUI::Helper::Utils::toggleWidget(this -> widget, this -> toggleWidgetsAccountType, toggleView);
       }
@@ -91,7 +95,34 @@ namespace Nexuz {
       void AddAccount::wizardPageChanged(int pageId) {
         if (pageId == 1) {
 
+          QList < QString > errorList;
+
+          const QString userName = this -> widget -> findChild<QLineEdit *> ("userName") -> text();
+          const QString password = this -> widget -> findChild<QLineEdit *> ("password") -> text();
+          const QString passwordRepeat = this -> widget -> findChild<QLineEdit *> ("passwordRepeat") -> text();
+          const QString serverName = this -> widget -> findChild<QLineEdit *> ("serverName") -> text();
+
+          if (accountActionType == "createNew") {
+            if (password != passwordRepeat || password == "" || passwordRepeat == "") {
+              errorList << "Password don't match";
+            }
+          }
+
+          if (accountType == 0) { // default, Global Internet
+
+          } else {
+
+          }
+
+          if (errorList.size()) {
+            this -> showErrorList(errorList);
+          }
+
         }
+      }
+
+      void AddAccount::showErrorList(const QList<QString> errorList) {
+        qDebug() << errorList;
       }
 
     }

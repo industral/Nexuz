@@ -23,53 +23,42 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
-#define _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
-
-#include <include.hpp>
-#include "../Helper/Utils.hpp"
+#include "Settings.hpp"
 
 namespace Nexuz {
-  namespace GUI {
-    namespace UI {
 
-      class AddAccount: public QWidget {
-        Q_OBJECT
+  // --------------------------------------------------------------------
+  // Public methods
+  // --------------------------------------------------------------------
 
-        public:
-          /**
-           * Default constructor.
-           */
-          AddAccount(QWidget *parent = 0);
+  // Singleton
+  Settings * Settings::_settings = NULL;
 
-          /**
-           * Default destructor.
-           */
-          ~AddAccount();
-
-          /**
-           * Init AddAccount widget.
-           *
-           * @param widget pointer to ariginal loaded widget from ui
-           */
-          void init(QWidget * widget);
-        private slots:
-          void changeAccountType(int index);
-          void changeAccountAction(QAbstractButton * button);
-          void wizardPageChanged(int pageId);
-          void showErrorList(const QList<QString> errorList);
-        private:
-          void toggleAccountActionType(const QString & type);
-
-          QList < QString > toggleLayoutsAccountType;
-          QList<QString> toggleWidgetsAccountType;
-          QWidget * widget;
-
-          QString accountActionType;
-          int accountType;
-    };
+  Settings * Settings::Instance() {
+    if (_settings == NULL) {
+      _settings = new Settings();
+    }
+    return _settings;
   }
-}
-}
 
-#endif
+  Settings::~Settings() {
+  }
+
+  QSettings * Settings::getInstance() {
+    return &settings;
+  }
+
+  // --------------------------------------------------------------------
+  // Private methods
+  // --------------------------------------------------------------------
+
+  Settings::Settings() :
+    settings("siegerstein", "nexuz") {
+    this -> init();
+  }
+
+  void Settings::init() {
+    StoredObjects::Instance();
+  }
+
+}

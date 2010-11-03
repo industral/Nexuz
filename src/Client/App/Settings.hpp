@@ -23,53 +23,39 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
-#define _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
+#ifndef _NEXUZ_SETTINGS_HPP_
+#define _NEXUZ_SETTINGS_HPP_
 
 #include <include.hpp>
-#include "../Helper/Utils.hpp"
+
+#include "StoredObjects.hpp"
 
 namespace Nexuz {
-  namespace GUI {
-    namespace UI {
 
-      class AddAccount: public QWidget {
-        Q_OBJECT
+  class Settings {
 
-        public:
-          /**
-           * Default constructor.
-           */
-          AddAccount(QWidget *parent = 0);
+    public:
 
-          /**
-           * Default destructor.
-           */
-          ~AddAccount();
+      static Settings * Instance();
 
-          /**
-           * Init AddAccount widget.
-           *
-           * @param widget pointer to ariginal loaded widget from ui
-           */
-          void init(QWidget * widget);
-        private slots:
-          void changeAccountType(int index);
-          void changeAccountAction(QAbstractButton * button);
-          void wizardPageChanged(int pageId);
-          void showErrorList(const QList<QString> errorList);
-        private:
-          void toggleAccountActionType(const QString & type);
+      /**
+       * Default destructor.
+       */
+      ~Settings();
 
-          QList < QString > toggleLayoutsAccountType;
-          QList<QString> toggleWidgetsAccountType;
-          QWidget * widget;
+      QSettings * getInstance();
+    private:
+      /**
+       * Default constructor.
+       */
+      Settings();
+      void init();
 
-          QString accountActionType;
-          int accountType;
-    };
-  }
-}
+      static Settings * _settings;
+
+      QSettings settings;
+  };
+
 }
 
 #endif

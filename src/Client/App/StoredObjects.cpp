@@ -23,53 +23,48 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
-#define _NEXUZ_GUI_UI_ADDACCOUNT_HPP_
+/**
+ * @see http://wiki.forum.nokia.com/index.php/Saving_custom_structures_and_classes_to_QSettings
+ */
 
-#include <include.hpp>
-#include "../Helper/Utils.hpp"
+#include "StoredObjects.hpp"
 
 namespace Nexuz {
-  namespace GUI {
-    namespace UI {
 
-      class AddAccount: public QWidget {
-        Q_OBJECT
+  // Singleton
+  StoredObjects * StoredObjects::_storedObjects = NULL;
 
-        public:
-          /**
-           * Default constructor.
-           */
-          AddAccount(QWidget *parent = 0);
-
-          /**
-           * Default destructor.
-           */
-          ~AddAccount();
-
-          /**
-           * Init AddAccount widget.
-           *
-           * @param widget pointer to ariginal loaded widget from ui
-           */
-          void init(QWidget * widget);
-        private slots:
-          void changeAccountType(int index);
-          void changeAccountAction(QAbstractButton * button);
-          void wizardPageChanged(int pageId);
-          void showErrorList(const QList<QString> errorList);
-        private:
-          void toggleAccountActionType(const QString & type);
-
-          QList < QString > toggleLayoutsAccountType;
-          QList<QString> toggleWidgetsAccountType;
-          QWidget * widget;
-
-          QString accountActionType;
-          int accountType;
-    };
+  StoredObjects * StoredObjects::Instance() {
+    if (_storedObjects == NULL) {
+      _storedObjects = new StoredObjects();
+      _storedObjects -> init();
+    }
+    return _storedObjects;
   }
-}
+
+  StoredObjects::~StoredObjects() {
+  }
+
+  // --------------------------------------------------------------------
+  // Private methods
+  // --------------------------------------------------------------------
+
+  StoredObjects::StoredObjects() {
+  }
+
+  void StoredObjects::init() {
+    qRegisterMetaType<AccountInfo> ("AccountInfo");
+    qRegisterMetaTypeStreamOperators<AccountInfo> ("AccountInfo");
+  }
+
 }
 
-#endif
+QDataStream &operator<<(QDataStream &out, const AccountInfo &obj) {
+  out << obj.accountType << obj.userName << obj.password;
+  return out;
+}
+
+QDataStream &operator>>(QDataStream &in, AccountInfo &obj) {
+  in >> obj.accountType >> obj.userName >> obj.password;
+  return in;
+}

@@ -50,6 +50,7 @@
 
 #include "GUI/MainWindow.hpp"
 #include "Process.hpp"
+#include "App/App.hpp"
 
 using namespace Nexuz;
 using namespace Nexuz::GUI;
@@ -59,6 +60,8 @@ int main(int argc, char *argv[]) {
 
   MainWindow * mainWindow = new MainWindow();
   mainWindow -> load();
+
+  App * application = new App();
 
   Process * process = new Process();
   process -> init();
