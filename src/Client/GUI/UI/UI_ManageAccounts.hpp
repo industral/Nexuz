@@ -27,7 +27,6 @@
 #define _NEXUZ_GUI_UI_MANAGEACCOUNTS_HPP_
 
 #include <include.hpp>
-#include "../Helper/Utils.hpp"
 #include "../../App/Accounts.hpp"
 
 namespace Nexuz {

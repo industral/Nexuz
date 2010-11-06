@@ -29,11 +29,11 @@ namespace Nexuz {
   namespace Network {
     namespace Helper {
 
-      void Utils::parseJSON(const QString & data, QScriptValue & sv) {
+      QScriptValue Utils::parseJSON(const QString & data) {
         QString response = QString("[") + data + QString("]");
 
-        QScriptEngine engine;
-        sv = engine.evaluate(response);
+        QScriptEngine * engine = new QScriptEngine();
+        return (engine -> evaluate(response));
       }
 
     }

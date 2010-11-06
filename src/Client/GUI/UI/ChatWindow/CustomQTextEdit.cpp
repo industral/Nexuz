@@ -46,10 +46,11 @@ namespace Nexuz {
 
         if (enterPressed) {
           this -> send();
+        } else {
+          // pass events further
+          QTextEdit::keyPressEvent(e);
         }
 
-        // pass events further
-        QTextEdit::keyPressEvent(e);
       }
 
       // --------------------------------------------------------------------

@@ -2,9 +2,10 @@ CONFIG      += uitools qt warn_on DEBUG_MODE #RELEASE_MODE
 QT          += network script
 RESOURCES   = Nexuz.qrc
 
-SOURCES     = src/Client/GUI/Helper/Utils.cpp \
+SOURCES     = src/Client/GUI/Helper/GUI_Utils.cpp \
               src/Client/GUI/MainWindow.cpp \
               src/Client/Network/Connection.cpp \
+              src/Client/Network/Helper/Utils.cpp \
               src/Client/Process.cpp \
               src/Client/GUI/UI/UI_AddAccount.cpp \
               src/Client/GUI/UI/UI_Contacts.cpp \
@@ -18,9 +19,10 @@ SOURCES     = src/Client/GUI/Helper/Utils.cpp \
               src/Client/main.cpp
 
 HEADERS     = src/Client/include.hpp \
+              src/Client/GUI/Helper/GUI_Utils.hpp \
               src/Client/GUI/MainWindow.hpp \
-              src/Client/GUI/Helper/Utils.hpp \
               src/Client/Network/Connection.hpp \
+              src/Client/Network/Helper/Utils.hpp \
               src/Client/GUI/UI/UI_AddAccount.hpp \
               src/Client/GUI/UI/UI_Contacts.hpp \
               src/Client/GUI/UI/ChatWindow/CustomQTextEdit.hpp \

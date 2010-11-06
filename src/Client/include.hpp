@@ -47,6 +47,7 @@
 
 // App
 #include "App/Settings.hpp"
+#include "GUI/Helper/GUI_Utils.hpp"
 
 // namespace
 using namespace std;

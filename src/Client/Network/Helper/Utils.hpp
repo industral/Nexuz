@@ -34,7 +34,7 @@ namespace Nexuz {
 
       class Utils {
         public:
-          static void parseJSON(const QString & data, QScriptValue & sv);
+          static QScriptValue parseJSON(const QString & data);
       };
 
     }

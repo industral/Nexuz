@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "Utils.hpp"
+#include "GUI_Utils.hpp"
 
 namespace Nexuz {
   namespace GUI {

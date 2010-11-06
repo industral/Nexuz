@@ -33,22 +33,23 @@ namespace Nexuz {
       // Public methods
       // --------------------------------------------------------------------
 
-      ChatWindow::ChatWindow(QWidget *parent) :
-        CustomQTextEdit(parent) {
-        this -> parent = parent;
+      // Singleton
+      ChatWindow * ChatWindow::_chatWindow = NULL;
+
+      ChatWindow * ChatWindow::Instance() {
+        if (_chatWindow == NULL) {
+          _chatWindow = new ChatWindow();
+        }
+        return _chatWindow;
       }
 
       ChatWindow::~ChatWindow() {
       }
 
       void ChatWindow::init(QWidget * widget) {
-        cout << "init" << endl;
-
         this -> widget = widget;
 
-        this -> chatInput = new ChatWindow();
-        this -> chatInput2 = new QTextEdit();
-        this -> chatInput2 -> setObjectName("chatInput2");
+        this -> chatInput = Instance();
         this -> chatOutput = new QTextEdit();
         this -> chatOutput -> setReadOnly(true);
 
@@ -57,32 +58,31 @@ namespace Nexuz {
         QVBoxLayout * layout = new QVBoxLayout();
         layout -> addWidget(this -> chatOutput);
         layout -> addWidget(this -> chatInput);
-        layout -> addWidget(this -> chatInput2);
 
         layout -> setStretch(0, 4);
         layout -> setStretch(1, 1);
 
         delete tabWidget -> layout();
         tabWidget -> setLayout(layout);
+      }
 
-        cout << this -> chatInput2 << endl;
+      void ChatWindow::input(const QString & message) {
+        const QString origChatOutput = this -> chatOutput -> toHtml();
+        this -> chatOutput -> setHtml(origChatOutput + message);
       }
 
       // --------------------------------------------------------------------
       // Private methods
       // --------------------------------------------------------------------
 
+      ChatWindow::ChatWindow(QWidget *parent) {
+      }
+
       void ChatWindow::send() {
-        qDebug() << "asdasd";
+        const QString typedText = this -> chatInput -> toHtml();
+        this -> chatInput -> clear();
 
-        cout << this -> chatInput2 << endl;
-
-//        QTextEdit * t = this -> widget -> findChild<QTextEdit *> ("chatInput2");
-//        qDebug() << t-> objectName();
-
-        //                cout << this -> chatInput2 << endl;
-
-        //         this -> chatInput2 -> toPlainText();
+        this -> input(typedText);
       }
 
     // --------------------------------------------------------------------

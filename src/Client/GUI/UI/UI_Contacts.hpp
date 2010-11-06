@@ -27,7 +27,6 @@
 #define _NEXUZ_GUI_UI_CONTACTS_HPP_
 
 #include <include.hpp>
-#include "../Helper/Utils.hpp"
 #include "../../GUI/UI/ChatWindow/UI_ChatWindow.hpp"
 
 namespace Nexuz {

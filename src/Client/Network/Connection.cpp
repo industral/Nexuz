@@ -48,18 +48,9 @@ namespace Nexuz {
     }
 
     void Connection::httpFinished() {
-      QString response = QString("[") + QString(this -> reply -> readAll().data()) + QString("]");
+      QScriptValue sv = Helper::Utils::parseJSON(QString(this -> reply -> readAll().data()));
 
-      QScriptEngine engine;
-      QScriptValue sc = engine.evaluate(response);
-
-      cout << sc.property("0").property("couchdb").toString().toStdString() << endl;
-
-//      QScriptValue sv;
-//      Helper::Utils::parseJSON(/*QString(this -> reply -> readAll().data())*/"{'couchdb': '1'}", sv, a);
-//      //      qDebug() << sv.toString();
-//
-//      cout << sv.property("0").property("couchdb").toString().toStdString() << endl;
+      qDebug() << sv.property("0").property("couchdb").toString();
 
       //      if (sc.property("result").isArray()) {
       //        QScriptValueIterator it(sc.property("result"));
@@ -68,7 +59,6 @@ namespace Nexuz {
       //          qDebug("Nick %s", it.value().property("nick").toString().toStdString().c_str());
       //        }
       //      }
-
     }
 
     void Connection::slotError(QNetworkReply::NetworkError error) {

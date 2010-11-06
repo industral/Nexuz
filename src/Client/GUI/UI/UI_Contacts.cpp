@@ -62,7 +62,7 @@ namespace Nexuz {
         this -> contactListEl -> insertTopLevelItems(0, contactItems);
 
         this -> chatWindowWidget = Helper::Utils::loadUI(":/forms/src/Client/GUI/design/ChatWindow.ui");
-        ChatWindow * chatWindow = new ChatWindow();
+        ChatWindow * chatWindow = UI::ChatWindow::Instance();
         chatWindow -> init(this -> chatWindowWidget);
 
         //        qDebug() << this -> contactListEl -> topLevelItemCount();

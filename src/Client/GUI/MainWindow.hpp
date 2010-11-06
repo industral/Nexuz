@@ -27,7 +27,6 @@
 #define _NEXUZ_GUI_MAINWINDOW_HPP_
 
 #include <include.hpp>
-#include "Helper/Utils.hpp"
 
 #include "UI/include.hpp"
 

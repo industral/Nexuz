@@ -40,10 +40,7 @@ namespace Nexuz {
         Q_OBJECT
 
         public:
-          /**
-           * Default constructor.
-           */
-          ChatWindow(QWidget *parent = 0);
+          static ChatWindow * Instance();
 
           /**
            * Default destructor.
@@ -57,11 +54,19 @@ namespace Nexuz {
            */
           void init(QWidget * widget);
         private:
+          /**
+           * Default constructor.
+           */
+          ChatWindow(QWidget *parent = 0);
+
+          static ChatWindow * _chatWindow;
+
+          void input(const QString & message);
+
           QWidget * widget;
           QWidget * parent;
 
           QTextEdit * chatInput;
-          QTextEdit * chatInput2;
           QTextEdit * chatOutput;
         protected:
           virtual void send();
