@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "ManageAccounts.hpp"
+#include "UI_ManageAccounts.hpp"
 
 namespace Nexuz {
   namespace GUI {

@@ -2,6 +2,7 @@
   <qresource prefix="/forms">
     <file>src/Client/GUI/design/MainWindow.ui</file>
     <file>src/Client/GUI/design/Contacts.ui</file>
+    <file>src/Client/GUI/design/ChatWindow.ui</file>
     <file>src/Client/GUI/design/About.ui</file>
     <file>src/Client/GUI/design/ManageAccounts.ui</file>
     <file>src/Client/GUI/design/AddAccount.ui</file>

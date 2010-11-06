@@ -45,6 +45,9 @@ namespace Nexuz {
 
       this -> mainWidget -> setCentralWidget(contacts);
       this -> mainWidget -> show();
+
+      UI::Contacts * uiContacts = new UI::Contacts();
+      uiContacts -> init(contacts);
     }
 
     void MainWindow::addEvents() {

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Chat</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
@@ -27,10 +27,10 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1">
          <item>
-          <widget class="QTextEdit" name="textEdit_2"/>
+          <widget class="QTextEdit" name="chatOuput"/>
          </item>
          <item>
-          <widget class="QTextEdit" name="textEdit"/>
+          <widget class="CustomChatWindow" name="chatInput"/>
          </item>
         </layout>
        </item>
@@ -40,6 +40,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomChatWindow</class>
+   <extends>QTextEdit</extends>
+   <header>src/Client/GUI/UI/ChatWindow/CustomChatWindow.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "AddAccount.hpp"
+#include "UI_AddAccount.hpp"
 
 namespace Nexuz {
   namespace GUI {
