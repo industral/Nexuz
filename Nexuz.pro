@@ -7,9 +7,11 @@ SOURCES     = src/Client/GUI/Helper/Utils.cpp \
               src/Client/Network/Connection.cpp \
               src/Client/Process.cpp \
               src/Client/GUI/UI/AddAccount.cpp \
+              src/Client/GUI/UI/ManageAccounts.cpp \
               src/Client/App/Settings.cpp \
               src/Client/App/StoredObjects.cpp \
               src/Client/App/App.cpp \
+              src/Client/App/Accounts.cpp \
               src/Client/main.cpp
 
 HEADERS     = src/Client/include.hpp \
@@ -17,10 +19,13 @@ HEADERS     = src/Client/include.hpp \
               src/Client/GUI/Helper/Utils.hpp \
               src/Client/Network/Connection.hpp \
               src/Client/GUI/UI/AddAccount.hpp \
+              src/Client/GUI/UI/ManageAccounts.hpp \
               src/Client/App/Settings.hpp \
               src/Client/App/StoredObjects.hpp \
               src/Client/App/App.hpp \
-              src/Client/Process.hpp
+              src/Client/App/Accounts.hpp \
+              src/Client/Process.hpp \
+              src/Client/include.hpp
 
 Libraries = 
 

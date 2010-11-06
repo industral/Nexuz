@@ -30,6 +30,7 @@
 #include "Helper/Utils.hpp"
 
 #include "UI/AddAccount.hpp"
+#include "UI/ManageAccounts.hpp"
 
 namespace Nexuz {
   namespace GUI {

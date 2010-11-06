@@ -102,20 +102,33 @@ namespace Nexuz {
           const QString passwordRepeat = this -> widget -> findChild<QLineEdit *> ("passwordRepeat") -> text();
           const QString serverName = this -> widget -> findChild<QLineEdit *> ("serverName") -> text();
 
+          if (userName == "") {
+            errorList << "UserName shoudn't be empty";
+          }
+
           if (accountActionType == "createNew") {
             if (password != passwordRepeat || password == "" || passwordRepeat == "") {
               errorList << "Password don't match";
             }
-          }
-
-          if (accountType == 0) { // default, Global Internet
-
           } else {
+
+            if (password == "") {
+              errorList << "Password shoudn't be empty";
+            }
+
+            if (accountType == 0) { // default, Global Internet
+
+            } else {
+
+            }
 
           }
 
           if (errorList.size()) {
             this -> showErrorList(errorList);
+          } else {
+            Accounts accounts;
+            accounts.add(accountType, userName, password, serverName);
           }
 
         }

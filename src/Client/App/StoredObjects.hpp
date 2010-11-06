@@ -23,14 +23,18 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
+#ifndef _NEXUZ_STOREDOBJECTS_HPP_
+#define _NEXUZ_STOREDOBJECTS_HPP_
+
 #include <include.hpp>
 
 struct AccountInfo {
+    int id;
     int accountType;
     QString userName;
     QString password;
 };
-Q_DECLARE_METATYPE( AccountInfo)
+Q_DECLARE_METATYPE(AccountInfo)
 
 namespace Nexuz {
 
@@ -49,3 +53,5 @@ namespace Nexuz {
   };
 
 }
+
+#endif

@@ -45,6 +45,9 @@
 #include <QtScript>
 #include <QtNetwork>
 
+// App
+#include "App/Settings.hpp"
+
 // namespace
 using namespace std;
 

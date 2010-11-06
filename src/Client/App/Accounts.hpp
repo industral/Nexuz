@@ -23,53 +23,34 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "App.hpp"
+#ifndef _NEXUZ_ACCOUNTS_HPP_
+#define _NEXUZ_ACCOUNTS_HPP_
+
+#include <include.hpp>
 
 namespace Nexuz {
 
-  App::App() {
-    this -> init();
-  }
+  class Accounts {
 
-  App::~App() {
-  }
+    public:
+      /**
+       * Default constructor.
+       */
+      Accounts();
 
-  void App::init() {
-    this -> checkApplicationDir();
+      /**
+       * Default destructor.
+       */
+      ~Accounts();
 
-//    QSettings * settings = Settings::Instance() -> getInstance();
-
-//            AccountInfo contact = { 1, 0, "alex", "qwerty" };
-//            AccountInfo contact2 = { 2, 0, "alex1", "qwerty1" };
-//
-//            QList <QVariant> list;
-//            list << qVariantFromValue(contact) << qVariantFromValue(contact2);
-//
-//            settings -> setValue("accounts", list);
-
-//    QList < QVariant > list;
-//    list << settings -> value("accounts").value<QList<QVariant> > ();
-//
-//    for (int i = 0; i < list.size(); ++i) {
-//      AccountInfo contact = list.at(i).value<AccountInfo> ();
-//      qDebug() << contact.accountType << contact.userName << contact.password;
-//    }
-
-//    AccountInfo contact = settings -> value("accounts").value<AccountInfo> ();
-//    qDebug() << contact.accountType << contact.userName << contact.password;
-  }
-
-  // --------------------------------------------------------------------
-  // Private methods
-  // --------------------------------------------------------------------
-
-  void App::checkApplicationDir() {
-    const QString appPath = QDir::homePath() + QDir::separator() + USER_APPLICATION_FOLDER_NAME;
-
-    if (!qDir.exists(appPath)) {
-      qDir.mkdir(appPath);
-    }
-
-  }
+      QList<AccountInfo> getList();
+      void add(int accountType, const QString & userName, const QString & password, const QString & serverName = "");
+      bool remove(int id);
+      void save(const QList<AccountInfo> & accountsData);
+    private:
+      QSettings * settings;
+  };
 
 }
+
+#endif

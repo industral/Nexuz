@@ -23,53 +23,84 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "App.hpp"
+#include "Accounts.hpp"
 
 namespace Nexuz {
 
-  App::App() {
-    this -> init();
+  Accounts::Accounts() {
+    this -> settings = Settings::Instance() -> getInstance();
   }
 
-  App::~App() {
+  Accounts::~Accounts() {
   }
 
-  void App::init() {
-    this -> checkApplicationDir();
+  QList<AccountInfo> Accounts::getList() {
+    QList < QVariant > list;
+    QList < AccountInfo > outputList;
 
-//    QSettings * settings = Settings::Instance() -> getInstance();
+    list << this -> settings -> value("accounts").value<QList<QVariant> > ();
 
-//            AccountInfo contact = { 1, 0, "alex", "qwerty" };
-//            AccountInfo contact2 = { 2, 0, "alex1", "qwerty1" };
-//
-//            QList <QVariant> list;
-//            list << qVariantFromValue(contact) << qVariantFromValue(contact2);
-//
-//            settings -> setValue("accounts", list);
+    for (int i = 0; i < list.size(); ++i) {
+      AccountInfo account = list.at(i).value<AccountInfo> ();
+      qDebug() << account.userName;
+      outputList << account;
+    }
 
-//    QList < QVariant > list;
-//    list << settings -> value("accounts").value<QList<QVariant> > ();
-//
-//    for (int i = 0; i < list.size(); ++i) {
-//      AccountInfo contact = list.at(i).value<AccountInfo> ();
-//      qDebug() << contact.accountType << contact.userName << contact.password;
-//    }
-
-//    AccountInfo contact = settings -> value("accounts").value<AccountInfo> ();
-//    qDebug() << contact.accountType << contact.userName << contact.password;
+    return outputList;
   }
 
-  // --------------------------------------------------------------------
-  // Private methods
-  // --------------------------------------------------------------------
+  void Accounts::add(int accountType, const QString & userName, const QString & password, const QString & serverName) {
+    if (accountType == 0) {
+      // fetch a list of existed accounts
+      QList < AccountInfo > accountList = this -> getList();
 
-  void App::checkApplicationDir() {
-    const QString appPath = QDir::homePath() + QDir::separator() + USER_APPLICATION_FOLDER_NAME;
+      // generate UUID
+      QDateTime t;
 
-    if (!qDir.exists(appPath)) {
-      qDir.mkdir(appPath);
+      // create new account obj
+      AccountInfo contact = { t.toTime_t(), accountType, userName, password };
+
+      // add to existed list
+      accountList << contact;
+
+      // save
+      this -> save(accountList);
     }
 
   }
+
+  bool Accounts::remove(int id) {
+    bool returnValue = false;
+
+    QList < AccountInfo > accounts = this -> getList();
+
+    for (int i = 0; i < accounts.size(); ++i) {
+      AccountInfo account = accounts.at(i);
+      if (account.id == id) {
+        accounts.removeAt(i);
+
+        returnValue = true;
+      }
+    }
+
+    this -> save(accounts);
+    return returnValue;
+  }
+
+  void Accounts::save(const QList<AccountInfo> & accountsData) {
+    QList < QVariant > outputList;
+
+    for (int i = 0; i < accountsData.size(); ++i) {
+      AccountInfo account = accountsData.at(i);
+      outputList << qVariantFromValue(account);
+    }
+
+    this -> settings -> setValue("accounts", outputList);
+  }
+
+// --------------------------------------------------------------------
+// Private methods
+// --------------------------------------------------------------------
+
 
 }

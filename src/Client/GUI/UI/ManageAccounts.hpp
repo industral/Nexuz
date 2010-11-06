@@ -23,53 +23,49 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "App.hpp"
+#ifndef _NEXUZ_GUI_UI_MANAGEACCOUNTS_HPP_
+#define _NEXUZ_GUI_UI_MANAGEACCOUNTS_HPP_
+
+#include <include.hpp>
+#include "../Helper/Utils.hpp"
+#include "../../App/Accounts.hpp"
 
 namespace Nexuz {
+  namespace GUI {
+    namespace UI {
 
-  App::App() {
-    this -> init();
+      class ManageAccounts: public QWidget {
+        Q_OBJECT
+
+        public:
+          /**
+           * Default constructor.
+           */
+        ManageAccounts(QWidget *parent = 0);
+
+          /**
+           * Default destructor.
+           */
+          ~ManageAccounts();
+
+          /**
+           * Init ManageAccounts widget.
+           *
+           * @param widget pointer to ariginal loaded widget from ui
+           */
+          void init(QWidget * widget);
+        private slots:
+          void accountClicked(QTreeWidgetItem * item, int column);
+          void removeAccount();
+        private:
+          void addEvents();
+          void refresh();
+
+          QWidget * widget;
+          QTreeWidget * accountsListEl;
+    };
   }
-
-  App::~App() {
-  }
-
-  void App::init() {
-    this -> checkApplicationDir();
-
-//    QSettings * settings = Settings::Instance() -> getInstance();
-
-//            AccountInfo contact = { 1, 0, "alex", "qwerty" };
-//            AccountInfo contact2 = { 2, 0, "alex1", "qwerty1" };
-//
-//            QList <QVariant> list;
-//            list << qVariantFromValue(contact) << qVariantFromValue(contact2);
-//
-//            settings -> setValue("accounts", list);
-
-//    QList < QVariant > list;
-//    list << settings -> value("accounts").value<QList<QVariant> > ();
-//
-//    for (int i = 0; i < list.size(); ++i) {
-//      AccountInfo contact = list.at(i).value<AccountInfo> ();
-//      qDebug() << contact.accountType << contact.userName << contact.password;
-//    }
-
-//    AccountInfo contact = settings -> value("accounts").value<AccountInfo> ();
-//    qDebug() << contact.accountType << contact.userName << contact.password;
-  }
-
-  // --------------------------------------------------------------------
-  // Private methods
-  // --------------------------------------------------------------------
-
-  void App::checkApplicationDir() {
-    const QString appPath = QDir::homePath() + QDir::separator() + USER_APPLICATION_FOLDER_NAME;
-
-    if (!qDir.exists(appPath)) {
-      qDir.mkdir(appPath);
-    }
-
-  }
-
 }
+}
+
+#endif

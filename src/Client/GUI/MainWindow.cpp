@@ -57,7 +57,7 @@ namespace Nexuz {
 
       // map actions
       this -> signalMapper -> setMapping(actionAbout, QString("About"));
-      this -> signalMapper -> setMapping(actionManageAccounts, QString("SetupAccounts"));
+      this -> signalMapper -> setMapping(actionManageAccounts, QString("ManageAccounts"));
 
       // connect actions
       connect(actionAbout, SIGNAL(triggered()), this -> signalMapper, SLOT(map()));
@@ -75,8 +75,12 @@ connect    (signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(doAction(c
       widget -> show();
 
       // attach events on widgets
-      if (action == "SetupAccounts") {
+      if (action == "ManageAccounts") {
         QPushButton * addAccount = widget -> findChild<QPushButton *> ("addAccount");
+
+        UI::ManageAccounts * account = new UI::ManageAccounts();
+        account -> init(widget);
+
         this -> signalMapper -> setMapping(addAccount, QString("AddAccount"));
         connect(addAccount, SIGNAL(clicked()), this -> signalMapper, SLOT(map()));
       } else if (action == "AddAccount") {

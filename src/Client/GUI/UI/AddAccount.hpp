@@ -28,6 +28,7 @@
 
 #include <include.hpp>
 #include "../Helper/Utils.hpp"
+#include "../../App/Accounts.hpp"
 
 namespace Nexuz {
   namespace GUI {

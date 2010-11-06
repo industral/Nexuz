@@ -27,7 +27,6 @@
 #define _NEXUZ_APP_HPP_
 
 #include <include.hpp>
-#include "Settings.hpp"
 
 static const QString USER_APPLICATION_FOLDER_NAME = ".nexuz"; // TODO system check QtGlobal
 

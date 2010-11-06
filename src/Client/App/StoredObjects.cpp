@@ -60,11 +60,11 @@ namespace Nexuz {
 }
 
 QDataStream &operator<<(QDataStream &out, const AccountInfo &obj) {
-  out << obj.accountType << obj.userName << obj.password;
+  out << obj.id << obj.accountType << obj.userName << obj.password;
   return out;
 }
 
 QDataStream &operator>>(QDataStream &in, AccountInfo &obj) {
-  in >> obj.accountType >> obj.userName >> obj.password;
+  in >> obj.id >> obj.accountType >> obj.userName >> obj.password;
   return in;
 }
