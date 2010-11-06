@@ -23,30 +23,12 @@
       <attribute name="title">
        <string>Chat with Vasia Pupkin</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1">
-         <item>
-          <widget class="QTextEdit" name="chatOuput"/>
-         </item>
-         <item>
-          <widget class="CustomChatWindow" name="chatInput"/>
-         </item>
-        </layout>
-       </item>
-      </layout>
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
      </widget>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>CustomChatWindow</class>
-   <extends>QTextEdit</extends>
-   <header>src/Client/GUI/UI/ChatWindow/CustomChatWindow.hpp</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

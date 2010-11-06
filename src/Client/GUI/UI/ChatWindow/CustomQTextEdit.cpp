@@ -23,35 +23,43 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_UI_CUSTOMCHATWINDOW_HPP_
-#define _NEXUZ_GUI_UI_CUSTOMCHATWINDOW_HPP_
-
-#include <include.hpp>
+#include "CustomQTextEdit.hpp"
 
 namespace Nexuz {
   namespace GUI {
     namespace UI {
 
-      class CustomChatWindow: public QTextEdit {
-        Q_OBJECT
+      // --------------------------------------------------------------------
+      // Public methods
+      // --------------------------------------------------------------------
 
-        public:
-          /**
-           * Default constructor.
-           */
-        CustomChatWindow(QWidget *parent = 0);
+      CustomQTextEdit::CustomQTextEdit(QWidget *parent) :
+        QTextEdit(parent) {
+      }
 
-          /**
-           * Default destructor.
-           */
-          ~CustomChatWindow();
-        private slots:
-        private:
-        protected:
-          void keyPressEvent(QKeyEvent* e);
-    };
+      CustomQTextEdit::~CustomQTextEdit() {
+      }
+
+      void CustomQTextEdit::keyPressEvent(QKeyEvent * e) {
+        bool enterPressed = (e -> key() == Qt::Key_Enter || e -> key() == Qt::Key_Return) && e -> nativeModifiers()
+            == 0;
+
+        if (enterPressed) {
+          this -> send();
+        }
+
+        // pass events further
+        QTextEdit::keyPressEvent(e);
+      }
+
+      // --------------------------------------------------------------------
+      // Private methods
+      // --------------------------------------------------------------------
+
+      void CustomQTextEdit::send() {
+        qDebug() << "Enter pressed";
+      }
+
+    }
   }
 }
-}
-
-#endif

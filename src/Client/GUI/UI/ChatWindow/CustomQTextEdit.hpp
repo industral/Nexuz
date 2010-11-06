@@ -23,31 +23,34 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#include "CustomChatWindow.hpp"
+#ifndef _NEXUZ_GUI_UI_CUSTOMQTEXTWIDGET_HPP_
+#define _NEXUZ_GUI_UI_CUSTOMQTEXTWIDGET_HPP_
+
+#include <include.hpp>
 
 namespace Nexuz {
   namespace GUI {
     namespace UI {
 
-      // --------------------------------------------------------------------
-      // Public methods
-      // --------------------------------------------------------------------
+      class CustomQTextEdit: public QTextEdit {
+        Q_OBJECT
 
-      CustomChatWindow::CustomChatWindow(QWidget *parent) :
-        QTextEdit(parent) {
-      }
+        public:
+          /**
+           * Default constructor.
+           */
+          CustomQTextEdit(QWidget *parent = 0);
 
-      CustomChatWindow::~CustomChatWindow() {
-      }
-
-      void CustomChatWindow::keyPressEvent(QKeyEvent * e) {
-        qDebug() << e->key();
-      }
-
-    // --------------------------------------------------------------------
-    // Private methods
-    // --------------------------------------------------------------------
-
+          /**
+           * Default destructor.
+           */
+          ~CustomQTextEdit();
+        protected:
+          virtual void send();
+          virtual void keyPressEvent(QKeyEvent* e);
+      };
     }
   }
 }
+
+#endif

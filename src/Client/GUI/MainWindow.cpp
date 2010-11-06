@@ -46,7 +46,7 @@ namespace Nexuz {
       this -> mainWidget -> setCentralWidget(contacts);
       this -> mainWidget -> show();
 
-      UI::Contacts * uiContacts = new UI::Contacts();
+      UI::Contacts * uiContacts = new UI::Contacts(this);
       uiContacts -> init(contacts);
     }
 
@@ -67,34 +67,34 @@ namespace Nexuz {
       connect(actionManageAccounts, SIGNAL(triggered()), this -> signalMapper, SLOT(map()));
 
       // connect signal mapper
-connect    (signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(doAction(const QString &)));
-  }
-
-  void MainWindow::doAction(const QString & action) {
-    //TODO: one instance
-    QWidget * widget = Helper::Utils::loadUI(":/forms/src/Client/GUI/design/" + action + ".ui");
-
-    if (widget != NULL) {
-      widget -> show();
-
-      // attach events on widgets
-      if (action == "ManageAccounts") {
-        QPushButton * addAccount = widget -> findChild<QPushButton *> ("addAccount");
-
-        UI::ManageAccounts * account = new UI::ManageAccounts();
-        account -> init(widget);
-
-        this -> signalMapper -> setMapping(addAccount, QString("AddAccount"));
-        connect(addAccount, SIGNAL(clicked()), this -> signalMapper, SLOT(map()));
-      } else if (action == "AddAccount") {
-        UI::AddAccount * account = new UI::AddAccount();
-        account -> init(widget);
-      }
-
-    } else {
-      cerr << "Failed to open widget" << endl;
+      connect (signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(doAction(const QString &)));
     }
-  }
 
-}
+    void MainWindow::doAction(const QString & action) {
+      //TODO: one instance
+      QWidget * widget = Helper::Utils::loadUI(":/forms/src/Client/GUI/design/" + action + ".ui");
+
+      if (widget != NULL) {
+        widget -> show();
+
+        // attach events on widgets
+        if (action == "ManageAccounts") {
+          QPushButton * addAccount = widget -> findChild<QPushButton *> ("addAccount");
+
+          UI::ManageAccounts * account = new UI::ManageAccounts();
+          account -> init(widget);
+
+          this -> signalMapper -> setMapping(addAccount, QString("AddAccount"));
+          connect(addAccount, SIGNAL(clicked()), this -> signalMapper, SLOT(map()));
+        } else if (action == "AddAccount") {
+          UI::AddAccount * account = new UI::AddAccount();
+          account -> init(widget);
+        }
+
+      } else {
+        cerr << "Failed to open widget" << endl;
+      }
+    }
+
+  }
 }

@@ -27,7 +27,7 @@
 #define _NEXUZ_GUI_UI_CHATWINDOW_HPP_
 
 #include <include.hpp>
-#include "CustomChatWindow.hpp"
+#include "CustomQTextEdit.hpp"
 
 //#include "../Helper/Utils.hpp"
 //#include "../../App/Accounts.hpp"
@@ -36,14 +36,14 @@ namespace Nexuz {
   namespace GUI {
     namespace UI {
 
-      class ChatWindow: public CustomChatWindow {
+      class ChatWindow: public CustomQTextEdit {
         Q_OBJECT
 
         public:
           /**
            * Default constructor.
            */
-        ChatWindow(QWidget *parent = 0);
+          ChatWindow(QWidget *parent = 0);
 
           /**
            * Default destructor.
@@ -53,17 +53,22 @@ namespace Nexuz {
           /**
            * Init AddAccount widget.
            *
-           * @param widget pointer to ariginal loaded widget from ui
+           * @param widget pointer to original loaded widget from ui
            */
           void init(QWidget * widget);
-        private slots:
         private:
           QWidget * widget;
+          QWidget * parent;
+
+          QTextEdit * chatInput;
+          QTextEdit * chatInput2;
+          QTextEdit * chatOutput;
         protected:
-          void keyPressEvent(QKeyEvent* e);
-    };
+          virtual void send();
+      };
+
+    }
   }
-}
 }
 
 #endif
