@@ -23,10 +23,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_INCLUDE_HPP_
-#define _NEXUZ_INCLUDE_HPP_
+#ifndef _NEXUZPROTOCOL_HPP_
+#define _NEXUZPROTOCOL_HPP_
 
-// C++ header
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -35,27 +34,14 @@
 #include <vector>
 #include <fstream>
 
-// C header
-#include <cstdio>
-
-// Qt
-#include <QtGui>
-#include <QWidget>
-#include <QUiLoader>
-#include <QtScript>
-#include <QtNetwork>
-
-// inet
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
-// App
-#include "../NexuzProtocol.hpp"
-#include "App/Settings.hpp"
-#include "GUI/Helper/GUI_Utils.hpp"
-
-// namespace
 using namespace std;
+
+struct NexuzProtocol {
+    char protocolName[6];
+    char dataType[5]; // TEXT, VIDEO, SOUND, FILE, DESKTOP
+
+    int32_t size;
+    char data[128];
+};
 
 #endif

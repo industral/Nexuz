@@ -18,7 +18,8 @@ SOURCES     = src/Client/GUI/Helper/GUI_Utils.cpp \
               src/Client/App/Accounts.cpp \
               src/Client/main.cpp
 
-HEADERS     = src/Client/include.hpp \
+HEADERS     = src/NexuzProtocol.hpp \
+              src/Client/include.hpp \
               src/Client/GUI/Helper/GUI_Utils.hpp \
               src/Client/GUI/MainWindow.hpp \
               src/Client/Network/Connection.hpp \
@@ -41,15 +42,15 @@ Libraries =
 StaticLibraries = 
 
 CONFIG(DEBUG_MODE) {
-  QMAKE_CXXFLAGS += -ggdb
-  QMAKE_CFLAGS += -ggdb
+  QMAKE_CXXFLAGS += -ggdb -std=c++0x
+  QMAKE_CFLAGS += -ggdb -std=c++0x
 
   for(lib, Libraries) {
     LIBS += -l$$lib
   }
 } else {
-  QMAKE_CXXFLAGS += -O3
-  QMAKE_CFLAGS += -O3
+  QMAKE_CXXFLAGS += -O3 -std=c++0x
+  QMAKE_CFLAGS += -O3 -std=c++0x
   
   for(lib, StaticLibraries) {
     LIBS += "/usr/lib/lib$$lib".a

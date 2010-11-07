@@ -41,7 +41,7 @@ namespace Nexuz {
         ~Connection();
 
         void init();
-        void write(void * data, int size);
+        void write(NexuzProtocol data, int size);
 
         bool auth();
       private slots:

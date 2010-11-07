@@ -64,8 +64,8 @@ namespace Nexuz {
       }
     }
 
-    void Connection::write(void * data, int size) {
-      send(sock, data, size, 0);
+    void Connection::write(NexuzProtocol data, int size) {
+      ssize_t sentSize = send(sock, (void *) &data, size, 0);
     }
 
     bool Connection::auth() {

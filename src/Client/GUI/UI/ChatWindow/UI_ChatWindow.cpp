@@ -87,15 +87,15 @@ namespace Nexuz {
 
         this -> input(typedText);
 
-//                this -> connection -> write((void *) QString::number(typedText.size()).toStdString().c_str(), QString::number(
-//                    typedText.size()).toStdString().size());
-//        this -> connection -> write((void *) typedText.toStdString().c_str(), typedText.size());
+        NexuzProtocol protocolData;
+        protocolData.protocolName = {'N', 'E', 'X', 'U', 'Z'};
+        protocolData.dataType = {'T', 'E', 'X', 'T'};
+        protocolData.size = typedText.size();
+
+        strcpy(protocolData.data, typedText.toStdString().c_str());
+
+        this -> connection -> write(protocolData, sizeof(NexuzProtocol));
       }
-
-    // --------------------------------------------------------------------
-    // Slots
-    // --------------------------------------------------------------------
-
 
     }
   }

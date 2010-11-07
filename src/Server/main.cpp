@@ -7,13 +7,14 @@
 
 #include <iostream>
 
+#include "../NexuzProtocol.hpp"
+
 using namespace std;
 
 int main() {
   int sock, listener;
   struct sockaddr_in addr;
-  char buf[1024];
-  int bytes_read;
+  NexuzProtocol * p = new NexuzProtocol();
 
   listener = socket(AF_INET, SOCK_STREAM, 0);
   if (listener < 0) {
@@ -40,16 +41,22 @@ int main() {
 
     while (true) {
 
-      bytes_read = recv(sock, buf, 1024, 0);
+//      cout << sizeof(NexuzProtocol) << endl;
+      //      try {
+      int bytes_read = recv(sock, p, sizeof(NexuzProtocol), 0);
       if (bytes_read <= 0) {
         break;
       }
 
-//      write(1, buf, 1);
+//      cout << p -> protocolName << endl;
+      cout << p -> data << endl;
 
-                        cout << buf[0] << buf[1] << endl;
-
+      //      write(1, p -> protocolName, 6);
       //            send(sock, buf, bytes_read, 0);
+      //      } catch (char * e) {
+      //        cout << "SHIT happend" << endl;
+      //        cerr << e << endl;
+      //      }
     }
 
     close(sock);
