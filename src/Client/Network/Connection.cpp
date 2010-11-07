@@ -27,11 +27,45 @@
 
 namespace Nexuz {
   namespace Network {
-    Connection::Connection(QWidget *parent) :
-      QWidget(parent) {
+
+    // --------------------------------------------------------------------
+    // Public methods
+    // --------------------------------------------------------------------
+
+    // Singleton
+    Connection * Connection::_connection = NULL;
+
+    Connection * Connection::Instance() {
+      if (_connection == NULL) {
+        _connection = new Connection();
+      }
+      return _connection;
     }
 
     Connection::~Connection() {
+      ::close(sock);
+    }
+
+    void Connection::init() {
+      struct sockaddr_in addr;
+
+      this -> sock = socket(AF_INET, SOCK_STREAM, 0);
+      if (this -> sock < 0) {
+        perror("socket");
+        exit(1);
+      }
+
+      addr.sin_family = AF_INET;
+      addr.sin_port = htons(3425);
+      addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+      if (::connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+        perror("connect");
+        exit(2);
+      }
+    }
+
+    void Connection::write(void * data, int size) {
+      send(sock, data, size, 0);
     }
 
     bool Connection::auth() {
@@ -46,6 +80,18 @@ namespace Nexuz {
 
       return true;
     }
+
+    // --------------------------------------------------------------------
+    // Private methods
+    // --------------------------------------------------------------------
+
+    Connection::Connection(QWidget *parent) :
+      QWidget(parent) {
+    }
+
+    // --------------------------------------------------------------------
+    // Slots
+    // --------------------------------------------------------------------
 
     void Connection::httpFinished() {
       QScriptValue sv = Helper::Utils::parseJSON(QString(this -> reply -> readAll().data()));

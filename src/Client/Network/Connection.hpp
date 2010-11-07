@@ -36,13 +36,24 @@ namespace Nexuz {
       Q_OBJECT
 
       public:
-        Connection(QWidget *parent = 0);
+        static Connection * Instance();
+
         ~Connection();
 
-        bool auth();private slots:
+        void init();
+        void write(void * data, int size);
+
+        bool auth();
+      private slots:
         void httpFinished();
         void slotError(QNetworkReply::NetworkError err);
       private:
+        Connection(QWidget *parent = 0);
+
+        static Connection * _connection;
+
+        int sock;
+
         QNetworkReply *reply;
         QNetworkAccessManager * manager; // NOTE: this should be as a member of class
     };

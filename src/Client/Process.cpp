@@ -35,7 +35,9 @@ namespace Nexuz {
   void Process::init() {
 
     // connect to server
-    Network::Connection * conn = new Network::Connection();
+    Network::Connection * conn = Network::Connection::Instance();
+
+    conn -> init();
     conn -> auth();
   }
 

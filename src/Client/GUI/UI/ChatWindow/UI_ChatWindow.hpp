@@ -28,9 +28,7 @@
 
 #include <include.hpp>
 #include "CustomQTextEdit.hpp"
-
-//#include "../Helper/Utils.hpp"
-//#include "../../App/Accounts.hpp"
+#include "../../../Network/Connection.hpp"
 
 namespace Nexuz {
   namespace GUI {
@@ -62,6 +60,8 @@ namespace Nexuz {
           static ChatWindow * _chatWindow;
 
           void input(const QString & message);
+
+          Nexuz::Network::Connection * connection;
 
           QWidget * widget;
           QWidget * parent;

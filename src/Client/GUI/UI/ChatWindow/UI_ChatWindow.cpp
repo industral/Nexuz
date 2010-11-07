@@ -64,11 +64,14 @@ namespace Nexuz {
 
         delete tabWidget -> layout();
         tabWidget -> setLayout(layout);
+
+        // get connection instance
+        this -> connection = Nexuz::Network::Connection::Instance();
       }
 
       void ChatWindow::input(const QString & message) {
-        const QString origChatOutput = this -> chatOutput -> toHtml();
-        this -> chatOutput -> setHtml(origChatOutput + message);
+        const QString origChatOutput = this -> chatOutput -> toPlainText();
+        this -> chatOutput -> setPlainText(origChatOutput + message);
       }
 
       // --------------------------------------------------------------------
@@ -79,10 +82,14 @@ namespace Nexuz {
       }
 
       void ChatWindow::send() {
-        const QString typedText = this -> chatInput -> toHtml();
+        const QString typedText = this -> chatInput -> toPlainText();
         this -> chatInput -> clear();
 
         this -> input(typedText);
+
+//                this -> connection -> write((void *) QString::number(typedText.size()).toStdString().c_str(), QString::number(
+//                    typedText.size()).toStdString().size());
+//        this -> connection -> write((void *) typedText.toStdString().c_str(), typedText.size());
       }
 
     // --------------------------------------------------------------------

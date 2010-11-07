@@ -45,6 +45,11 @@
 #include <QtScript>
 #include <QtNetwork>
 
+// inet
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
 // App
 #include "App/Settings.hpp"
 #include "GUI/Helper/GUI_Utils.hpp"
