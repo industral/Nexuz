@@ -43,7 +43,7 @@ namespace Nexuz {
         void init();
         void write(NexuzProtocol data, int size);
 
-        bool auth();
+        bool auth(const QString & userName, const QString & password);
       private slots:
         void httpFinished();
         void slotError(QNetworkReply::NetworkError err);

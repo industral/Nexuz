@@ -28,6 +28,7 @@
 
 #include <include.hpp>
 #include "Network/Connection.hpp"
+#include "App/Accounts.hpp"
 
 namespace Nexuz {
 

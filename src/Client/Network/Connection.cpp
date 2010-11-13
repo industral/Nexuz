@@ -65,16 +65,21 @@ namespace Nexuz {
     }
 
     void Connection::write(NexuzProtocol data, int size) {
-      ssize_t sentSize = send(sock, (void *) &data, size, 0);
+      send(sock, (void *) &data, size, 0);
     }
 
-    bool Connection::auth() {
+    bool Connection::auth(const QString & userName, const QString & password) {
       this -> manager = new QNetworkAccessManager();
 
       QNetworkRequest request;
-      request.setUrl(QUrl("http://localhost:5984"));
+      QUrl url = QUrl("http://server.nexuz.im:8365/auth");
 
-      this -> reply = this -> manager -> get(request);
+      QByteArray data;
+      data.append(QString("userName=%1&password=%2").arg(userName, password));
+
+      request.setUrl(url);
+
+      this -> reply = this -> manager -> post(request, data);
       connect(reply, SIGNAL(readyRead()), this, SLOT(httpFinished()));
       connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError(QNetworkReply::NetworkError)));
 

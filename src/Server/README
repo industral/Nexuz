@@ -1,0 +1,4 @@
+couchapp push http://localhost:5984/accounts
+
+
+curl -X GET http://localhost:5984/accounts/_design/accounts/_list/auth/auth?username=industral\&password=12345

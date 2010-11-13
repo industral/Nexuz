@@ -42,7 +42,6 @@ namespace Nexuz {
 
     for (int i = 0; i < list.size(); ++i) {
       AccountInfo account = list.at(i).value<AccountInfo> ();
-      qDebug() << account.userName;
       outputList << account;
     }
 

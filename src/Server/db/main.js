@@ -10,6 +10,7 @@ var http = require("http");
  */
 
 exports.sendRequest = function sendRequest(callback, path, method, inputData) {
+
   var dbRequest = http.createClient(_db.port, _db.URL);
   var request = dbRequest.request(method ? method : "GET", _db.name + path, inputData ? inputData : {});
   request.end();
@@ -22,10 +23,11 @@ exports.sendRequest = function sendRequest(callback, path, method, inputData) {
       }
     });
   });
+
 }
 
 var _db = {
   URL: "localhost",
   port: 5984,
-  name: "/sightline" // <-- component
+  name: "/accounts" // <-- component
 };

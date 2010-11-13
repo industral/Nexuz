@@ -38,7 +38,15 @@ namespace Nexuz {
     Network::Connection * conn = Network::Connection::Instance();
 
     conn -> init();
-    conn -> auth();
+
+    //TODO: hardcode
+    Accounts * accounts = new Accounts();
+    QList < AccountInfo > accountsInfo = accounts -> getList();
+
+    for (int i = 0; i < accountsInfo.size(); ++i) {
+      conn -> auth(accountsInfo.at(i).userName, accountsInfo.at(i).password);
+    }
+
   }
 
 }
