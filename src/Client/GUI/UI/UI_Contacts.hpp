@@ -37,10 +37,7 @@ namespace Nexuz {
         Q_OBJECT
 
         public:
-          /**
-           * Default constructor.
-           */
-        Contacts(QWidget *parent = 0);
+          static Contacts * Instance();
 
           /**
            * Default destructor.
@@ -53,15 +50,24 @@ namespace Nexuz {
            * @param widget pointer to ariginal loaded widget from ui
            */
           void init(QWidget * widget);
+
+          void initRoster(const QList<QVariant> & rosterList);
         private slots:
           void contactClicked(QTreeWidgetItem * item, int column);
         private:
+          static Contacts * _contacts;
+
+          /**
+           * Default constructor.
+           */
+          Contacts(QWidget *parent = 0);
+
           QWidget * widget;
           QTreeWidget * contactListEl;
           QWidget * chatWindowWidget;
-    };
+      };
+    }
   }
-}
 }
 
 #endif

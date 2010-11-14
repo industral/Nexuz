@@ -37,6 +37,7 @@
 
 // C header
 #include <cstdio>
+#include <unistd.h>
 
 // Qt
 #include <QtGui>

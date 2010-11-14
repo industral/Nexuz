@@ -46,70 +46,122 @@ namespace Nexuz {
       ::close(sock);
     }
 
-    void Connection::init() {
+    void Connection::run() {
+      int sock;
       struct sockaddr_in addr;
 
-      this -> sock = socket(AF_INET, SOCK_STREAM, 0);
-      if (this -> sock < 0) {
+      NexuzProtocol * p = new NexuzProtocol();
+
+      int listener = socket(AF_INET, SOCK_STREAM, 0);
+      if (listener < 0) {
         perror("socket");
         exit(1);
       }
 
       addr.sin_family = AF_INET;
-      addr.sin_port = htons(3425);
-      addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-      if (::connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
-        perror("connect");
+      addr.sin_addr.s_addr = htonl(INADDR_ANY);
+      if (bind(listener, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+        perror("bind");
         exit(2);
       }
+
+      this -> port = htons(addr.sin_port);
+
+      listen(listener, 1);
+
+      while (true) {
+        //        cout << 1;
+        sock = accept(listener, NULL, NULL);
+        if (sock < 0) {
+          perror("accept");
+          exit(3);
+        }
+
+        while (true) {
+          int bytes_read = recv(sock, p, sizeof(NexuzProtocol), 0);
+          if (bytes_read <= 0) {
+            break;
+          }
+
+          cout << p -> data << endl;
+        }
+
+        ::close(sock);
+      }
+
+      ::close(sock);
+
+      //      struct sockaddr_in addr;
+      //
+      //      this -> sock = socket(AF_INET, SOCK_STREAM, 0);
+      //      if (this -> sock < 0) {
+      //        perror("socket");
+      //        exit(1);
+      //      }
+      //
+      //      addr.sin_family = AF_INET;
+      ////      addr.sin_port = htons(3425);
+      //      addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+      //      if (::connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+      //        perror("connect");
+      //        exit(2);
+      //      }
+      //
+      //      cout << htons(addr.sin_port) << endl;
+
+      exec();
+    }
+
+    void Connection::init() {
+      this -> start();
     }
 
     void Connection::write(NexuzProtocol data, int size) {
       send(sock, (void *) &data, size, 0);
     }
 
-    bool Connection::auth(const QString & userName, const QString & password) {
+    void Connection::auth(const QString & userName, const QString & password) {
       this -> manager = new QNetworkAccessManager();
 
       QNetworkRequest request;
       QUrl url = QUrl("http://server.nexuz.im:8365/auth");
 
       QByteArray data;
-      data.append(QString("userName=%1&password=%2").arg(userName, password));
+      data.append(QString("username=%1&password=%2").arg(userName, password));
 
       request.setUrl(url);
 
       this -> reply = this -> manager -> post(request, data);
-      connect(reply, SIGNAL(readyRead()), this, SLOT(httpFinished()));
+      connect(reply, SIGNAL(readyRead()), this, SLOT(authHttpFinished()));
       connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError(QNetworkReply::NetworkError)));
+    }
 
-      return true;
+    void Connection::getRosterList(const QList<QVariant> & rosterList) {
+
+      //      for (int i = 0; i < rosterList.size(); ++i) {
+      //        qDebug() << rosterList.at(i).toString();
+      //      }
+
+      ::Nexuz::GUI::UI::Contacts * contacts = ::Nexuz::GUI::UI::Contacts::Instance();
+      contacts -> initRoster(rosterList);
+
     }
 
     // --------------------------------------------------------------------
     // Private methods
     // --------------------------------------------------------------------
 
-    Connection::Connection(QWidget *parent) :
-      QWidget(parent) {
+    Connection::Connection() {
     }
 
     // --------------------------------------------------------------------
     // Slots
     // --------------------------------------------------------------------
 
-    void Connection::httpFinished() {
+    void Connection::authHttpFinished() {
       QScriptValue sv = Helper::Utils::parseJSON(QString(this -> reply -> readAll().data()));
 
-      qDebug() << sv.property("0").property("couchdb").toString();
-
-      //      if (sc.property("result").isArray()) {
-      //        QScriptValueIterator it(sc.property("result"));
-      //        while (it.hasNext()) {
-      //          it.next();
-      //          qDebug("Nick %s", it.value().property("nick").toString().toStdString().c_str());
-      //        }
-      //      }
+      this -> getRosterList(sv.property("list").toVariant().toList());
     }
 
     void Connection::slotError(QNetworkReply::NetworkError error) {

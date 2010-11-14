@@ -33,7 +33,7 @@ namespace Nexuz {
         QString response = QString("[") + data + QString("]");
 
         QScriptEngine * engine = new QScriptEngine();
-        return (engine -> evaluate(response));
+        return (engine -> evaluate(response).property(0));
       }
 
     }

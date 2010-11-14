@@ -28,11 +28,12 @@
 
 #include <include.hpp>
 #include "Helper/Utils.hpp"
+#include "../GUI/UI/UI_Contacts.hpp"
 
 namespace Nexuz {
   namespace Network {
 
-    class Connection: public QWidget {
+    class Connection: public QThread {
       Q_OBJECT
 
       public:
@@ -43,16 +44,19 @@ namespace Nexuz {
         void init();
         void write(NexuzProtocol data, int size);
 
-        bool auth(const QString & userName, const QString & password);
+        void auth(const QString & userName, const QString & password);
+        void getRosterList(const QList < QVariant > & rosterList);
+        void run();
       private slots:
-        void httpFinished();
+        void authHttpFinished();
         void slotError(QNetworkReply::NetworkError err);
       private:
-        Connection(QWidget *parent = 0);
+        Connection();
 
         static Connection * _connection;
 
-        int sock;
+        int sock; //?
+        int port;
 
         QNetworkReply *reply;
         QNetworkAccessManager * manager; // NOTE: this should be as a member of class

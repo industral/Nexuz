@@ -35,8 +35,6 @@ namespace Nexuz {
     }
 
     void MainWindow::load() {
-      QVBoxLayout *layout = new QVBoxLayout;
-
       this -> mainWidget = (QMainWindow *) Helper::Utils::loadUI(":/forms/src/Client/GUI/design/MainWindow.ui");
       QWidget * contacts = Helper::Utils::loadUI(":/forms/src/Client/GUI/design/Contacts.ui");
 
@@ -46,7 +44,7 @@ namespace Nexuz {
       this -> mainWidget -> setCentralWidget(contacts);
       this -> mainWidget -> show();
 
-      UI::Contacts * uiContacts = new UI::Contacts();
+      UI::Contacts * uiContacts = UI::Contacts::Instance();
       uiContacts -> init(contacts);
     }
 

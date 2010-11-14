@@ -12,8 +12,6 @@
  */
 exports.init = function(response) {
   _response = response;
-
-  response.end("Hello World\n");
 }
 
 /**
@@ -45,10 +43,10 @@ var acts = {
     });
 
     request.addListener("end", function() {
-      console.log(require("querystring").parse(postData));
+      db.sendRequest(function(data) {
+        _response.end(data);
+      }, "/_design/accounts/_list/auth/auth?" + postData);
     });
-    
-//    db.sendRequest(function() {}, );
 
   }
 };

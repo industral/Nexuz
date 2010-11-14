@@ -33,8 +33,14 @@ namespace Nexuz {
       // Public methods
       // --------------------------------------------------------------------
 
-      Contacts::Contacts(QWidget *parent) :
-        QWidget(parent) {
+      // Singleton
+      Contacts * Contacts::_contacts = NULL;
+
+      Contacts * Contacts::Instance() {
+        if (_contacts == NULL) {
+          _contacts = new Contacts();
+        }
+        return _contacts;
       }
 
       Contacts::~Contacts() {
@@ -42,22 +48,19 @@ namespace Nexuz {
 
       void Contacts::init(QWidget * widget) {
         this -> widget = widget;
+      }
 
+      void Contacts::initRoster(const QList<QVariant> & rosterList) {
         this -> contactListEl = this -> widget-> findChild<QTreeWidget *> ("contactList");
 
         QList<QTreeWidgetItem *> contactItems;
 
-        QTreeWidgetItem * account = new QTreeWidgetItem();
-        QTreeWidgetItem * account2 = new QTreeWidgetItem();
-        account -> setText(0, "asd");
-        account -> setText(1, "asd");
-        account -> setText(2, "asd");
+        for (int i = 0; i < rosterList.size(); ++i) {
+          QTreeWidgetItem * account = new QTreeWidgetItem();
+          account -> setText(1, rosterList.at(i).toString());
 
-        account2 -> setText(0, "AAA");
-        account2 -> setText(1, "AAA");
-        account2 -> setText(2, "AAAA");
-
-        contactItems << account << account2;
+          contactItems << account;
+        }
 
         this -> contactListEl -> insertTopLevelItems(0, contactItems);
 
@@ -65,35 +68,16 @@ namespace Nexuz {
         ChatWindow * chatWindow = UI::ChatWindow::Instance();
         chatWindow -> init(this -> chatWindowWidget);
 
-        //        qDebug() << this -> contactListEl -> topLevelItemCount();
-
 connect      (this -> contactListEl, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(contactClicked(QTreeWidgetItem *, int)));
-
-      //        QList < QString > toggleLayouts;
-      //        toggleLayouts << "customServer" << "repeatPassword";
-      //
-      //        this -> toggleLayoutsAccountType << "customServer";
-      //        this -> toggleWidgetsAccountType << "checkUserName" << "checkUserNameOK";
-      //
-      //        // hide some layouts and widgets by default
-      //        Nexuz::GUI::Helper::Utils::toggleLayout(this -> widget, toggleLayouts, false);
-      //        Nexuz::GUI::Helper::Utils::toggleWidget(this -> widget, this -> toggleWidgetsAccountType, false);
-      //
-      //        // add/create account
-      //        QButtonGroup * accountActionEl = this -> widget-> findChild<QButtonGroup *> ("buttonGroup");
-      //        connect(accountActionEl, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(changeAccountAction(QAbstractButton *)));
-      //
-      //        // account type
-      //        QComboBox * accountTypeEl = this -> widget-> findChild<QComboBox *> ("accoutType");
-      //        connect(accountTypeEl, SIGNAL(currentIndexChanged(int)), this, SLOT(changeAccountType(int)));
-      //
-      //        // track page changes in wizard
-      //        connect(this -> widget, SIGNAL(currentIdChanged(int)), this, SLOT(wizardPageChanged(int)));
     }
 
     // --------------------------------------------------------------------
     // Private methods
     // --------------------------------------------------------------------
+
+    Contacts::Contacts(QWidget *parent) :
+    QWidget(parent) {
+    }
 
     // --------------------------------------------------------------------
     // Slots

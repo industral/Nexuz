@@ -31,6 +31,11 @@
 #include "../../../Network/Connection.hpp"
 
 namespace Nexuz {
+
+  namespace Network {
+    class Connection;
+  }
+
   namespace GUI {
     namespace UI {
 
@@ -61,7 +66,7 @@ namespace Nexuz {
 
           void input(const QString & message);
 
-          Nexuz::Network::Connection * connection;
+          ::Nexuz::Network::Connection * connection;
 
           QWidget * widget;
           QWidget * parent;
