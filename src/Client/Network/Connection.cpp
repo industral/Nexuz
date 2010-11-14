@@ -65,12 +65,12 @@ namespace Nexuz {
         exit(2);
       }
 
-      this -> port = htons(addr.sin_port);
+      emit(setPort(htons(addr.sin_port)));
 
       listen(listener, 1);
 
       while (true) {
-        //        cout << 1;
+
         sock = accept(listener, NULL, NULL);
         if (sock < 0) {
           perror("accept");
@@ -89,7 +89,7 @@ namespace Nexuz {
         ::close(sock);
       }
 
-      ::close(sock);
+      //      ::close(sock);
 
       //      struct sockaddr_in addr;
       //
@@ -113,6 +113,7 @@ namespace Nexuz {
     }
 
     void Connection::init() {
+      connect(this, SIGNAL(setPort(int)), SLOT(doAuth(int)));
       this -> start();
     }
 
@@ -121,6 +122,7 @@ namespace Nexuz {
     }
 
     void Connection::auth(const QString & userName, const QString & password) {
+      qDebug() << "auth";
       this -> manager = new QNetworkAccessManager();
 
       QNetworkRequest request;
@@ -137,14 +139,8 @@ namespace Nexuz {
     }
 
     void Connection::getRosterList(const QList<QVariant> & rosterList) {
-
-      //      for (int i = 0; i < rosterList.size(); ++i) {
-      //        qDebug() << rosterList.at(i).toString();
-      //      }
-
       ::Nexuz::GUI::UI::Contacts * contacts = ::Nexuz::GUI::UI::Contacts::Instance();
       contacts -> initRoster(rosterList);
-
     }
 
     // --------------------------------------------------------------------
@@ -173,6 +169,19 @@ namespace Nexuz {
           cerr << m.valueToKey(error) << endl;
           break;
         }
+      }
+
+    }
+
+    void Connection::doAuth(int port) {
+      qDebug() << port;
+
+      //TODO: hardcode
+      Accounts * accounts = new Accounts();
+      QList<AccountInfo> accountsInfo = accounts -> getList();
+
+      for (int i = 0; i < accountsInfo.size(); ++i) {
+        this -> auth(accountsInfo.at(i).userName, accountsInfo.at(i).password);
       }
 
     }

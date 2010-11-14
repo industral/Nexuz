@@ -32,12 +32,13 @@
 
 namespace Nexuz {
 
+  namespace Network {
+    class Connection;
+  }
+
   class Process {
     public:
-      /**
-       * Default constructor.
-       */
-      Process();
+      static Process * Instance();
 
       /**
        * Default destructor.
@@ -45,7 +46,16 @@ namespace Nexuz {
       ~Process();
 
       void init();
+      void auth(int port);
     private:
+      /**
+       * Default constructor.
+       */
+      Process();
+
+      static Process * _process;
+
+      Network::Connection * conn;
   };
 }
 

@@ -26,27 +26,48 @@
 #include "Process.hpp"
 
 namespace Nexuz {
-  Process::Process() {
+
+  // --------------------------------------------------------------------
+  // Public methods
+  // --------------------------------------------------------------------
+
+  // Singleton
+  Process * Process::_process = NULL;
+
+  Process * Process::Instance() {
+    if (_process == NULL) {
+      _process = new Process();
+    }
+    return _process;
   }
 
   Process::~Process() {
   }
 
   void Process::init() {
+    this -> conn = Network::Connection::Instance();
+    this -> conn -> init();
+  }
 
-    // connect to server
-    Network::Connection * conn = Network::Connection::Instance();
+  void Process::auth(int port) {
+qDebug() << "auth";
 
-    conn -> init();
 
-    //TODO: hardcode
-    Accounts * accounts = new Accounts();
-    QList < AccountInfo > accountsInfo = accounts -> getList();
 
-    for (int i = 0; i < accountsInfo.size(); ++i) {
-      conn -> auth(accountsInfo.at(i).userName, accountsInfo.at(i).password);
-    }
+//    //TODO: hardcode
+//    Accounts * accounts = new Accounts();
+//    QList<AccountInfo> accountsInfo = accounts -> getList();
+//
+//    for (int i = 0; i < accountsInfo.size(); ++i) {
+//      this -> conn -> auth(accountsInfo.at(i).userName, accountsInfo.at(i).password);
+//    }
+  }
 
+  // --------------------------------------------------------------------
+  // Private methods
+  // --------------------------------------------------------------------
+
+  Process::Process() {
   }
 
 }

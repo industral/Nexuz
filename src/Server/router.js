@@ -22,10 +22,10 @@ exports.init = function(response) {
 exports.act = function(request) {
   var act = request.url.slice(1);
 
-  if (act) {
+  if (act && acts[act]) {
     acts[act](request);
   } else {
-    throw new Error("Wrong action method");
+    console.error("Wrong action method");
   }
 }
 

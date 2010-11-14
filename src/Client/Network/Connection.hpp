@@ -28,6 +28,8 @@
 
 #include <include.hpp>
 #include "Helper/Utils.hpp"
+#include "../Process.hpp"
+#include "../App/Accounts.hpp"
 #include "../GUI/UI/UI_Contacts.hpp"
 
 namespace Nexuz {
@@ -47,9 +49,12 @@ namespace Nexuz {
         void auth(const QString & userName, const QString & password);
         void getRosterList(const QList < QVariant > & rosterList);
         void run();
+      signals:
+        void setPort(int);
       private slots:
         void authHttpFinished();
         void slotError(QNetworkReply::NetworkError err);
+        void doAuth(int);
       private:
         Connection();
 

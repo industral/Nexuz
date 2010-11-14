@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 
   App * application = new App();
 
-  Process * process = new Process();
+  Process * process = Process::Instance();
   process -> init();
 
   //  delete mainWindow;
