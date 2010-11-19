@@ -37,7 +37,7 @@ int getIPv4(const char * dev, char * ipv4) {
 
 int main() {
   char ip[16];
-  if (getIPv4("eth0", ip) == 0)
+  if (getIPv4("wlan0", ip) == 0)
     printf("IPv4: %s\n", ip);
   else
     printf("No IP\n");

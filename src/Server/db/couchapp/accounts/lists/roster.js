@@ -23,60 +23,29 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_NETWORK_CONNECTION_HPP_
-#define _NEXUZ_NETWORK_CONNECTION_HPP_
+/**
+ * Get roster list.
+ */
 
-#include <include.hpp>
-#include "Helper/Utils.hpp"
-#include "../Process.hpp"
-#include "../App/Accounts.hpp"
-#include "../GUI/UI/UI_Contacts.hpp"
+function(head, request) {
+  var obj = {
+    status: "error",
+    list: []
+  };
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+  while (row = getRow()) {
+    if (request.query.list.indexOf(row.value._id) != -1) {
+      obj.status = "success";
 
-namespace Nexuz {
-  namespace Network {
+      var tmpObj = {};
+      tmpObj.id = row.value._id;
+      tmpObj.first_name = row.value.first_name;
+      tmpObj.last_name = row.value.last_name;
+      tmpObj.nickname = row.value.nickname;
 
-    class Connection: public QThread {
-      Q_OBJECT
-
-      public:
-        static Connection * Instance();
-
-        ~Connection();
-
-        void init();
-        void write(NexuzProtocol data, int size);
-
-        void auth(const QString & userName, const QString & password, const QString & host);
-        void getRosterList(const QList < QVariant > & rosterList);
-        void run();
-      signals:
-        void setHost(QString);
-      private slots:
-        void authHttpFinished();
-        void slotError(QNetworkReply::NetworkError err);
-        void doAuth(QString);
-      private:
-        Connection();
-
-        static Connection * _connection;
-
-        bool getIpAddress(QString dev, QString & ip);
-
-        int sock;
-        int port;
-
-        QNetworkReply *reply;
-        QNetworkAccessManager * manager; // NOTE: this should be as a member of class
-    };
-
+      obj.list.push(tmpObj);
+    }
   }
-}
 
-#endif
+  send(JSON.stringify(obj));
+}

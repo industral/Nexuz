@@ -57,7 +57,12 @@ namespace Nexuz {
 
         for (int i = 0; i < rosterList.size(); ++i) {
           QTreeWidgetItem * account = new QTreeWidgetItem();
-          account -> setText(1, rosterList.at(i).toString());
+
+          QString displayAccount = QString("%1 %2 (%3)").arg(rosterList.at(i).toMap().value("first_name").toString(),
+              rosterList.at(i).toMap().value("last_name").toString(),
+              rosterList.at(i).toMap().value("nickname").toString());
+
+          account -> setText(1, displayAccount);
 
           contactItems << account;
         }

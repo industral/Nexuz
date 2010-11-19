@@ -42,7 +42,7 @@ namespace Nexuz {
 
       void CustomQTextEdit::keyPressEvent(QKeyEvent * e) {
         bool enterPressed = (e -> key() == Qt::Key_Enter || e -> key() == Qt::Key_Return) && e -> nativeModifiers()
-            == 16;
+            == 0;
 
         if (enterPressed) {
           this -> send();

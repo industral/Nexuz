@@ -43,12 +43,11 @@ namespace Nexuz {
     }
 
     Connection::~Connection() {
-      ::close(sock);
+      ::close(this -> sock);
     }
 
     void Connection::run() {
-      int sock;
-      struct sockaddr_in addr;
+      struct sockaddr_in listenAddr;
 
       NexuzProtocol * p = new NexuzProtocol();
 
@@ -58,27 +57,30 @@ namespace Nexuz {
         exit(1);
       }
 
-      addr.sin_family = AF_INET;
-      addr.sin_addr.s_addr = htonl(INADDR_ANY);
-      if (bind(listener, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+      listenAddr.sin_family = AF_INET;
+      listenAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+      if (bind(listener, (struct sockaddr *) &listenAddr, sizeof(listenAddr)) < 0) {
         perror("bind");
         exit(2);
       }
 
-      emit(setPort(htons(addr.sin_port)));
+      QString hostName = "";
+      if (this -> getIpAddress(QString("wlan0"), hostName)) {
+        emit(setHost(QString("%1:%2").arg(hostName, QString::number(htons(listenAddr.sin_port)))));
+      }
 
       listen(listener, 1);
 
       while (true) {
 
-        sock = accept(listener, NULL, NULL);
-        if (sock < 0) {
+        int listenSock = accept(listener, NULL, NULL);
+        if (listenSock < 0) {
           perror("accept");
           exit(3);
         }
 
         while (true) {
-          int bytes_read = recv(sock, p, sizeof(NexuzProtocol), 0);
+          int bytes_read = recv(listenSock, p, sizeof(NexuzProtocol), 0);
           if (bytes_read <= 0) {
             break;
           }
@@ -86,34 +88,33 @@ namespace Nexuz {
           cout << p -> data << endl;
         }
 
-        ::close(sock);
+        ::close(listenSock);
       }
 
-      //      ::close(sock);
-
-      //      struct sockaddr_in addr;
-      //
-      //      this -> sock = socket(AF_INET, SOCK_STREAM, 0);
-      //      if (this -> sock < 0) {
-      //        perror("socket");
-      //        exit(1);
-      //      }
-      //
-      //      addr.sin_family = AF_INET;
-      ////      addr.sin_port = htons(3425);
-      //      addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-      //      if (::connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
-      //        perror("connect");
-      //        exit(2);
-      //      }
-      //
-      //      cout << htons(addr.sin_port) << endl;
+      //      ::close( listenSock);
 
       exec();
     }
 
     void Connection::init() {
-      connect(this, SIGNAL(setPort(int)), SLOT(doAuth(int)));
+      connect(this, SIGNAL(setHost(QString)), SLOT(doAuth(QString)));
+
+      struct sockaddr_in addr;
+
+      this -> sock = socket(AF_INET, SOCK_STREAM, 0);
+      if (this -> sock < 0) {
+        perror("socket");
+        exit(1);
+      }
+
+      addr.sin_family = AF_INET;
+      addr.sin_port = htons(3425);
+      addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+      if (::connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+        perror("connect");
+        exit(2);
+      }
+
       this -> start();
     }
 
@@ -121,7 +122,7 @@ namespace Nexuz {
       send(sock, (void *) &data, size, 0);
     }
 
-    void Connection::auth(const QString & userName, const QString & password) {
+    void Connection::auth(const QString & userName, const QString & password, const QString & host) {
       qDebug() << "auth";
       this -> manager = new QNetworkAccessManager();
 
@@ -129,7 +130,7 @@ namespace Nexuz {
       QUrl url = QUrl("http://server.nexuz.im:8365/auth");
 
       QByteArray data;
-      data.append(QString("username=%1&password=%2").arg(userName, password));
+      data.append(QString("username=%1&password=%2&host=%3").arg(userName, password, host));
 
       request.setUrl(url);
 
@@ -148,6 +149,29 @@ namespace Nexuz {
     // --------------------------------------------------------------------
 
     Connection::Connection() {
+    }
+
+    bool Connection::getIpAddress(QString dev, QString & ip) {
+      char ipv4[16];
+      struct ifreq ifc;
+      int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+
+      if (sockfd < 0) {
+        return false;
+      }
+
+      strcpy(ifc.ifr_name, dev.toStdString().c_str());
+      int res = ioctl(sockfd, SIOCGIFADDR, &ifc);
+      close(sockfd);
+
+      if (res < 0) {
+        return false;
+      }
+
+      strcpy(ipv4, inet_ntoa(((struct sockaddr_in*) &ifc.ifr_addr)->sin_addr));
+      ip = ipv4;
+
+      return true;
     }
 
     // --------------------------------------------------------------------
@@ -173,15 +197,14 @@ namespace Nexuz {
 
     }
 
-    void Connection::doAuth(int port) {
-      qDebug() << port;
+    void Connection::doAuth(QString host) {
 
       //TODO: hardcode
       Accounts * accounts = new Accounts();
       QList<AccountInfo> accountsInfo = accounts -> getList();
 
       for (int i = 0; i < accountsInfo.size(); ++i) {
-        this -> auth(accountsInfo.at(i).userName, accountsInfo.at(i).password);
+        this -> auth(accountsInfo.at(i).userName, accountsInfo.at(i).password, host);
       }
 
     }
