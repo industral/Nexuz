@@ -88,6 +88,10 @@ var acts = {
 
           setHost(responseData.id, parsedPostData.host);
           resolveRosterList(responseData.list);
+        } else {
+          _response.end(JSON.stringify({
+            status: "error"
+          }));
         }
 
       }, "/_design/accounts/_list/auth/auth?" + postData);

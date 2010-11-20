@@ -54,7 +54,7 @@ namespace Nexuz {
         static NetAccounts * _accounts;
 
         NetAccounts();
-        void openConnection(const QString & host);
+        bool openConnection(const QString & host);
 
         /**
          * Get account host by id.

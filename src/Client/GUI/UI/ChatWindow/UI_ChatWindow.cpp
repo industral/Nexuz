@@ -104,7 +104,6 @@ namespace Nexuz {
 
         QTabWidget * tabWidget = this -> widget -> findChild<QTabWidget *> ("tabWidget");
         const QString id = tabWidget -> currentWidget() -> property("id").toString();
-        qDebug() << id;
         this -> netAccounts -> write(id, protocolData, sizeof(NexuzProtocol));
       }
 

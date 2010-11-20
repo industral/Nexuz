@@ -50,7 +50,7 @@ namespace Nexuz {
     }
 
     void NetAccounts::write(const QString & id, NexuzProtocol data, int size) {
-      send(sock, (void *) &data, size, 0);
+      send(this -> sock, (void *) &data, size, 0);
     }
 
     // --------------------------------------------------------------------
@@ -71,28 +71,29 @@ namespace Nexuz {
       connect(reply, SIGNAL(readyRead()), this, SLOT(getInfoFinished()));
     }
 
-    void NetAccounts::openConnection(const QString & host) {
+    bool NetAccounts::openConnection(const QString & host) {
       QStringList hostSplit = host.split(":");
 
-      const int hostAddr = hostSplit[0].toInt();
-      const int histPort = hostSplit[1].toInt();
+      const char * hostAddr = hostSplit[0].toStdString().c_str();
+      const int hostPort = hostSplit[1].toInt();
 
       struct sockaddr_in addr;
 
       this -> sock = socket(AF_INET, SOCK_STREAM, 0);
       if (this -> sock < 0) {
-        perror("socket");
-        exit(1);
+        perror("NetAccounts::openConnection socket");
+        return false;
       }
 
       addr.sin_family = AF_INET;
-      addr.sin_port = htons(histPort);
-      addr.sin_addr.s_addr = htonl(hostAddr);
+      addr.sin_port = htons(hostPort);
+      addr.sin_addr.s_addr = inet_addr(hostAddr);
       if (::connect(this -> sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
-        perror("connect");
-//        exit(2);
+        perror((QString("NetAccounts::openConnection connect: ") + host).toStdString().c_str());
+        return false;
       }
 
+      return true;
     }
 
     // --------------------------------------------------------------------

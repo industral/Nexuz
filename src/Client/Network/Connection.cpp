@@ -171,7 +171,7 @@ namespace Nexuz {
       for (int i = 0; i < meta.enumeratorCount(); ++i) {
         QMetaEnum m = meta.enumerator(i);
         if (m.name() == QLatin1String("NetworkError")) {
-          cerr << m.valueToKey(error) << endl;
+          qDebug() << "Server connect:" << m.valueToKey(error);
           break;
         }
       }
