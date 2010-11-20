@@ -5,6 +5,7 @@ RESOURCES   = Nexuz.qrc
 SOURCES     = src/Client/GUI/Helper/GUI_Utils.cpp \
               src/Client/GUI/MainWindow.cpp \
               src/Client/Network/Connection.cpp \
+              src/Client/Network/NetAccounts.cpp \
               src/Client/Network/Helper/Utils.cpp \
               src/Client/Process.cpp \
               src/Client/GUI/UI/UI_AddAccount.cpp \
@@ -23,6 +24,7 @@ HEADERS     = src/NexuzProtocol.hpp \
               src/Client/GUI/Helper/GUI_Utils.hpp \
               src/Client/GUI/MainWindow.hpp \
               src/Client/Network/Connection.hpp \
+              src/Client/Network/NetAccounts.hpp \
               src/Client/Network/Helper/Utils.hpp \
               src/Client/GUI/UI/UI_AddAccount.hpp \
               src/Client/GUI/UI/UI_Contacts.hpp \

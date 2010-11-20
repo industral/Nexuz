@@ -23,53 +23,52 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-#ifndef _NEXUZ_GUI_UI_CONTACTS_HPP_
-#define _NEXUZ_GUI_UI_CONTACTS_HPP_
+#ifndef _NEXUZ_NETWORK_NETACCOUNTS_HPP_
+#define _NEXUZ_NETWORK_NETACCOUNTS_HPP_
 
 #include <include.hpp>
-#include "../../GUI/UI/ChatWindow/UI_ChatWindow.hpp"
-#include "../../Network/NetAccounts.hpp"
+#include "Helper/Utils.hpp"
 
 namespace Nexuz {
-  namespace GUI {
-    namespace UI {
+  namespace Network {
 
-      class Contacts: public QWidget {
-        Q_OBJECT
+    class NetAccounts : public QWidget {
+      Q_OBJECT
 
-        public:
-          static Contacts * Instance();
+      public:
+        static NetAccounts * Instance();
 
-          /**
-           * Default destructor.
-           */
-          ~Contacts();
+        ~NetAccounts();
 
-          /**
-           * Init AddAccount widget.
-           *
-           * @param widget pointer to ariginal loaded widget from ui
-           */
-          void init(QWidget * widget);
+        /**
+         * Init chat with person.
+         *
+         * @param id account id
+         */
+        void initChat(const QString & id);
 
-          void initRoster(const QList<QVariant> & rosterList);
-        private slots:
-          void contactClicked(QTreeWidgetItem * item, int column);
-        private:
-          static Contacts * _contacts;
+        void write(const QString & id, NexuzProtocol data, int size);
+      private slots:
+        void getInfoFinished();
+      private:
+        static NetAccounts * _accounts;
 
-          /**
-           * Default constructor.
-           */
-          Contacts(QWidget *parent = 0);
+        NetAccounts();
+        void openConnection(const QString & host);
 
-          Nexuz::Network::NetAccounts * netAccounts;
-          QWidget * widget;
-          QTreeWidget * contactListEl;
-          QWidget * chatWindowWidget;
-          ChatWindow * chatWindow;
-      };
-    }
+        /**
+         * Get account host by id.
+         *
+         * @param id account id
+         */
+        QString getHost(const QString & id);
+
+        QNetworkAccessManager * manager;
+        QNetworkReply *reply;
+
+        int sock;
+    };
+
   }
 }
 

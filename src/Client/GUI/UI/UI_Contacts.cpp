@@ -63,6 +63,7 @@ namespace Nexuz {
               rosterList.at(i).toMap().value("nickname").toString());
 
           account -> setText(1, displayAccount);
+          account -> setData(0, 1, rosterList.at(i).toMap().value("id").toString());
 
           contactItems << account;
         }
@@ -70,8 +71,8 @@ namespace Nexuz {
         this -> contactListEl -> insertTopLevelItems(0, contactItems);
 
         this -> chatWindowWidget = Helper::Utils::loadUI(":/forms/src/Client/GUI/design/ChatWindow.ui");
-        ChatWindow * chatWindow = UI::ChatWindow::Instance();
-        chatWindow -> init(this -> chatWindowWidget);
+        this -> chatWindow = UI::ChatWindow::Instance();
+        this -> chatWindow -> init(this -> chatWindowWidget);
 
 connect      (this -> contactListEl, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(contactClicked(QTreeWidgetItem *, int)));
     }
@@ -82,6 +83,7 @@ connect      (this -> contactListEl, SIGNAL(itemDoubleClicked(QTreeWidgetItem *,
 
     Contacts::Contacts(QWidget *parent) :
     QWidget(parent) {
+      this -> netAccounts = Nexuz::Network::NetAccounts::Instance();
     }
 
     // --------------------------------------------------------------------
@@ -89,7 +91,11 @@ connect      (this -> contactListEl, SIGNAL(itemDoubleClicked(QTreeWidgetItem *,
     // --------------------------------------------------------------------
 
     void Contacts::contactClicked(QTreeWidgetItem * item, int column) {
+      QString id = item -> data(0, 1).toString();
+      this -> netAccounts -> initChat(id);
+
       this -> chatWindowWidget -> show();
+      this -> chatWindow -> initChat(id);
     }
 
   }

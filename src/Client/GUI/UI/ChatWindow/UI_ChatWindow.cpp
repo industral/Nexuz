@@ -65,8 +65,16 @@ namespace Nexuz {
         delete tabWidget -> layout();
         tabWidget -> setLayout(layout);
 
-        // get connection instance
-        this -> connection = Nexuz::Network::Connection::Instance();
+        this -> netAccounts = Nexuz::Network::NetAccounts::Instance();
+      }
+
+      void ChatWindow::initChat(const QString & id) {
+        QTabWidget * tabWidget = this -> widget -> findChild<QTabWidget *> ("tabWidget");
+
+        const int count = tabWidget -> count();
+        if (count == 1) {
+          tabWidget -> widget(0) -> setProperty("id", id);
+        }
       }
 
       void ChatWindow::input(const QString & message) {
@@ -94,7 +102,10 @@ namespace Nexuz {
 
         strcpy(protocolData.data, typedText.toStdString().c_str());
 
-        this -> connection -> write(protocolData, sizeof(NexuzProtocol));
+        QTabWidget * tabWidget = this -> widget -> findChild<QTabWidget *> ("tabWidget");
+        const QString id = tabWidget -> currentWidget() -> property("id").toString();
+        qDebug() << id;
+        this -> netAccounts -> write(id, protocolData, sizeof(NexuzProtocol));
       }
 
     }

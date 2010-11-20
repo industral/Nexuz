@@ -28,7 +28,7 @@
 
 #include <include.hpp>
 #include "CustomQTextEdit.hpp"
-#include "../../../Network/Connection.hpp"
+#include "../../../Network/NetAccounts.hpp"
 
 namespace Nexuz {
 
@@ -56,6 +56,8 @@ namespace Nexuz {
            * @param widget pointer to original loaded widget from ui
            */
           void init(QWidget * widget);
+
+          void initChat(const QString & id);
         private:
           /**
            * Default constructor.
@@ -66,7 +68,7 @@ namespace Nexuz {
 
           void input(const QString & message);
 
-          ::Nexuz::Network::Connection * connection;
+          ::Nexuz::Network::NetAccounts * netAccounts;
 
           QWidget * widget;
           QWidget * parent;

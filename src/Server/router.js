@@ -20,7 +20,7 @@ exports.init = function(response) {
  * @param request request
  */
 exports.act = function(request) {
-  var act = request.url.slice(1);
+  var act = request.url.slice(1).split("/")[0];
 
   if (act && acts[act]) {
     acts[act](request);
@@ -34,6 +34,12 @@ exports.act = function(request) {
 // --------------------------------------------------------------------
 
 var acts = {
+
+  /**
+   * Perform auth.
+   * 
+   * @param {Object} request HTTP request
+   */
   auth: function(request) {
 
     var postData = "";
@@ -86,6 +92,20 @@ var acts = {
 
       }, "/_design/accounts/_list/auth/auth?" + postData);
     });
+
+  },
+
+  /**
+   * Get account information.
+   * 
+   * @param request HTTP request
+   */
+  info: function(request) {
+    var id = request.url.split("/").pop();
+
+    db.sendRequest(function(data) {
+      _response.end(data);
+    }, "/_design/accounts/_list/roster/roster?id=" + id, "GET");
 
   }
 };

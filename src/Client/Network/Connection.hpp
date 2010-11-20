@@ -51,7 +51,6 @@ namespace Nexuz {
         ~Connection();
 
         void init();
-        void write(NexuzProtocol data, int size);
 
         void auth(const QString & userName, const QString & password, const QString & host);
         void getRosterList(const QList < QVariant > & rosterList);
@@ -73,7 +72,7 @@ namespace Nexuz {
         int port;
 
         QNetworkReply *reply;
-        QNetworkAccessManager * manager; // NOTE: this should be as a member of class
+        QNetworkAccessManager * manager;
     };
 
   }

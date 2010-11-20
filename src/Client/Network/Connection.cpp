@@ -99,31 +99,10 @@ namespace Nexuz {
     void Connection::init() {
       connect(this, SIGNAL(setHost(QString)), SLOT(doAuth(QString)));
 
-      struct sockaddr_in addr;
-
-      this -> sock = socket(AF_INET, SOCK_STREAM, 0);
-      if (this -> sock < 0) {
-        perror("socket");
-        exit(1);
-      }
-
-      addr.sin_family = AF_INET;
-      addr.sin_port = htons(3425);
-      addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-      if (::connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
-        perror("connect");
-        exit(2);
-      }
-
       this -> start();
     }
 
-    void Connection::write(NexuzProtocol data, int size) {
-      send(sock, (void *) &data, size, 0);
-    }
-
     void Connection::auth(const QString & userName, const QString & password, const QString & host) {
-      qDebug() << "auth";
       this -> manager = new QNetworkAccessManager();
 
       QNetworkRequest request;
@@ -180,6 +159,8 @@ namespace Nexuz {
 
     void Connection::authHttpFinished() {
       QScriptValue sv = Helper::Utils::parseJSON(QString(this -> reply -> readAll().data()));
+
+      qDebug() << "auth: " << sv.property("status").toString();
 
       this -> getRosterList(sv.property("list").toVariant().toList());
     }

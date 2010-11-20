@@ -29,21 +29,39 @@
 
 function(head, request) {
   var obj = {
-    status: "error",
-    list: []
+    status: "error"
   };
 
-  while (row = getRow()) {
-    if (request.query.list.indexOf(row.value._id) != -1) {
-      obj.status = "success";
+  if (request.query.list) {
+    obj.list = [];
 
-      var tmpObj = {};
-      tmpObj.id = row.value._id;
-      tmpObj.first_name = row.value.first_name;
-      tmpObj.last_name = row.value.last_name;
-      tmpObj.nickname = row.value.nickname;
+    while (row = getRow()) {
+      if (request.query.list.indexOf(row.value._id) != -1) {
+        obj.status = "success";
 
-      obj.list.push(tmpObj);
+        var tmpObj = {};
+        tmpObj.id = row.value._id;
+        tmpObj.first_name = row.value.first_name;
+        tmpObj.last_name = row.value.last_name;
+        tmpObj.nickname = row.value.nickname;
+
+        obj.list.push(tmpObj);
+      }
+    }
+
+  } else if (request.query.id) {
+    while (row = getRow()) {
+      if (request.query.id == row.value._id) {
+        obj.status = "success";
+
+        obj.info = {
+          id: row.value._id,
+          first_name: row.value.first_name,
+          last_name: row.value.last_name,
+          nickname: row.value.nickname,
+          host: row.value.host
+        };
+      }
     }
   }
 

@@ -15,3 +15,4 @@ couchdb-dump http://localhost:5984/accounts > accounts.dump
 #libboost-all-dev
 #libcurl4-openssl-dev
 #curlcpp http://curlpp.org/
+qt4-dev-tools
