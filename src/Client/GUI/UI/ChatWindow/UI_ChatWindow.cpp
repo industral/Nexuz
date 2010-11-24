@@ -95,15 +95,17 @@ namespace Nexuz {
 
         this -> input(typedText);
 
+        QTabWidget * tabWidget = this -> widget -> findChild<QTabWidget *> ("tabWidget");
+        const QString id = tabWidget -> currentWidget() -> property("id").toString();
+
         NexuzProtocol protocolData;
         protocolData.protocolName = {'N', 'E', 'X', 'U', 'Z'};
         protocolData.dataType = {'T', 'E', 'X', 'T'};
         protocolData.size = typedText.size();
 
+        strcpy(protocolData.id, id.toStdString().c_str());
         strcpy(protocolData.data, typedText.toStdString().c_str());
 
-        QTabWidget * tabWidget = this -> widget -> findChild<QTabWidget *> ("tabWidget");
-        const QString id = tabWidget -> currentWidget() -> property("id").toString();
         this -> netAccounts -> write(id, protocolData, sizeof(NexuzProtocol));
       }
 

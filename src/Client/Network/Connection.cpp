@@ -85,13 +85,12 @@ namespace Nexuz {
             break;
           }
 
+          cout << p -> id << endl;
           cout << p -> data << endl;
         }
 
         ::close(listenSock);
       }
-
-      //      ::close( listenSock);
 
       exec();
     }

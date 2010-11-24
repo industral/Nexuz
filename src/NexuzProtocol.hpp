@@ -39,6 +39,7 @@ using namespace std;
 struct NexuzProtocol {
     char protocolName[6];
     char dataType[5]; // TEXT, VIDEO, SOUND, FILE, DESKTOP
+    char id[33]; // account id
 
     int32_t size;
     char data[128];
